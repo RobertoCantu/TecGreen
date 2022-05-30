@@ -38,6 +38,7 @@ router.route('/:id').get((req, res) => {
 
 router.route('/:id').delete((req, res) => {
     Comment.deleteMany({ plant: req.params.id })
+        .then()
     Plant.findByIdAndDelete(req.params.id)
         .then(() => res.json('Planta borrada'))
         .catch(err => res.status(400).json('Error: ' + err));
