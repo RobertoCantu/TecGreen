@@ -2,9 +2,15 @@ import * as React from 'react';
 import { useState , useEffect} from 'react'
 import { Box, CardMedia, Autocomplete, TextField, Stack} from '@mui/material'
 export default function ComboBox() {
-
+  //States
   const [plants, setPlants] = useState([]);
 
+  // Functions
+  const handleChange = (event:any, newValue:any) => {
+    console.log(newValue)
+  }
+
+  // Use effects
   useEffect(() => {
     // Api call for setting plants
 
@@ -32,6 +38,7 @@ export default function ComboBox() {
         options={top100Films}
         sx={{ width: 800}}
         renderInput={(params) => <TextField {...params} label="Buscar..." />}
+        onChange={handleChange}
       />
     </Stack>
    
@@ -40,7 +47,7 @@ export default function ComboBox() {
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
+  { id:0, label: 'The Shawshank Redemption', year: 1994 },
   { label: 'The Godfather', year: 1972 },
   { label: 'The Godfather: Part II', year: 1974 },
   { label: 'The Dark Knight', year: 2008 },
