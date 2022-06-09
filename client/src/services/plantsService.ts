@@ -1,0 +1,38 @@
+// utils
+import axios from '../utils/axios';
+
+export async function getPlants() {
+  return new Promise(async (resolve,reject) => {
+    const url = '/plants';
+    try {
+        const response =  await axios.get(url, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        });
+        resolve(response.data)
+    } catch(err){
+        reject(err);
+    }
+  });
+};
+
+export async function createPlant(commonName:string, scientificName:string,
+  flowers:string, seeds:string) {
+  return new Promise(async (resolve,reject) => {
+    const url = '/plants';
+    try {
+      // console.log(localStorage.getItem('accessToken'))
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+        const response =  await axios.post(url, {
+          commonName,
+          scientificName,
+          flowers,
+          seeds
+        });
+        resolve(response.data)
+    } catch(err){
+        reject(err);
+    }
+  });
+};

@@ -1,20 +1,35 @@
 import * as React from 'react';
 import { useState , useEffect} from 'react'
 import { Box, CardMedia, Autocomplete, TextField, Stack} from '@mui/material'
+
+// services
+import { getPlants } from '../services/plantsService'
+
+
 export default function ComboBox() {
   //States
-  const [plants, setPlants] = useState([]);
+  const [plants, setPlants] = useState<any>([]);
+
+  console.log(plants);
 
   // Functions
   const handleChange = (event:any, newValue:any) => {
     console.log(newValue)
   }
 
+  const getAllPlants = async () => {
+    try {
+      const response:any = await getPlants();
+      setPlants(response);
+    } catch(err){
+
+    }
+  }
+
   // Use effects
   useEffect(() => {
+    getAllPlants();
     // Api call for setting plants
-
-
   }, [])
   return (
     <Stack 
@@ -35,7 +50,8 @@ export default function ComboBox() {
        <Autocomplete
         disablePortal
         id="combo-box"
-        options={top100Films}
+        options={plants}
+        getOptionLabel={(option:any) => option.commonName}
         sx={{ width: 800}}
         renderInput={(params) => <TextField {...params} label="Buscar..." />}
         onChange={handleChange}
@@ -46,6 +62,12 @@ export default function ComboBox() {
 }
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
+
+const test = [
+  {name: 'hola', last: 'sasa'},
+  {name: 'hola', last: 'sasasa'},
+
+]
 const top100Films = [
   { id:0, label: 'The Shawshank Redemption', year: 1994 },
   { label: 'The Godfather', year: 1972 },
