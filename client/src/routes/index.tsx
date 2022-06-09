@@ -13,6 +13,7 @@ import Logout from '../components/authentication/Logout';
 
 import DashboardLayout from '../layouts/dashboard';
 import Test from '../views/Test';
+import HomePage from '../views/HomePage';
 
 export default function Router() {
   return useRoutes([
@@ -47,7 +48,7 @@ export default function Router() {
           <DashboardLayout />
         ),*/
         children: [
-          { path: '/dashboard', element: <Test /> },
+          { path: '/dashboard', element: <HomePage /> },
           //{ path: 'create', element: <CreateRide /> },
           //{ path: 'profile', element: <UserDetails /> },
           //{ path: 'rides/:rideId', element: <RideDetails /> },
