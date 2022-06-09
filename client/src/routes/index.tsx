@@ -49,6 +49,7 @@ export default function Router() {
         ),*/
         children: [
           { path: '/dashboard', element: <HomePage /> },
+          { path: 'plants/:plantId', element: <Test/>}
           //{ path: 'create', element: <CreateRide /> },
           //{ path: 'profile', element: <UserDetails /> },
           //{ path: 'rides/:rideId', element: <RideDetails /> },

@@ -36,3 +36,21 @@ export async function createPlant(commonName:string, scientificName:string,
     }
   });
 };
+
+export async function fetchPlantById(id:string) {
+  return new Promise(async (resolve,reject) => {
+    const url = `/plants/${id}`;
+    try {
+        const response =  await axios.get(url, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        });
+
+        resolve(response.data)
+
+    } catch(err){
+        reject(err);
+    }
+  });
+};
