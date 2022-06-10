@@ -32,8 +32,8 @@ import { MIconButton } from './@material-extend';
 interface InitialValues {
   commonName: string;
   scientificName: string;
-  flowers: string;
-  seeds: string;
+  flowers: boolean;
+  seeds: boolean;
   afterSubmit?: string;
 };
 
@@ -89,8 +89,8 @@ const PlantForm = () => {
         initialValues={{
           commonName: ride?.origen || '',
           scientificName: ride?.horaLlegada || '',
-          flowers: ride?.gasolina || '',
-          seeds: ride?.asientos || '',
+          flowers: ride?.gasolina || false,
+          seeds: ride?.asientos || false,
         }}
         validationSchema={AddPlantSchema}
         onSubmit={async (
@@ -126,7 +126,7 @@ const PlantForm = () => {
             {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
             <Grid container spacing={4}>
               <Grid item container xs={12} spacing={4}>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                   <TextField
                     fullWidth
                     autoComplete="commonName"
@@ -139,7 +139,7 @@ const PlantForm = () => {
                     helperText={touched.commonName && errors.commonName}
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12}>
                   <TextField
                     fullWidth
                     autoComplete="scientificName"
@@ -152,31 +152,25 @@ const PlantForm = () => {
                     helperText={touched.scientificName && errors.scientificName}
                   />
                 </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    autoComplete="flowers"
-                    type="text"
-                    label="Nombre de flor"
-                    name= "flowers"
-                    value = {values.flowers}
-                    onChange = {handleChange}
-                    error={Boolean(touched.flowers && errors.flowers)}
-                    helperText={touched.flowers && errors.flowers}
-                  />
+                <Grid item xs={12}>
+                  <FormGroup>
+                    <FormControlLabel 
+                      control={<Checkbox />} 
+                      label="¿Tiene flores?" 
+                      checked={values.flowers}
+                      onChange= {() => setFieldValue('flowers', !values.flowers)}
+                    />
+                  </FormGroup>
                 </Grid>
-                <Grid item xs={6}>
-                  <TextField
-                    fullWidth
-                    autoComplete="seeds"
-                    type="text"
-                    label="Nombre de semilla"
-                    name= "seeds"
-                    value = {values.seeds}
-                    onChange = {handleChange}
-                    error={Boolean(touched.seeds && errors.seeds)}
-                    helperText={touched.seeds && errors.seeds}
-                  />
+                <Grid item xs={12}>
+                  <FormGroup>
+                    <FormControlLabel 
+                      control={<Checkbox />} 
+                      label="¿Tiene semillas?" 
+                      checked={values.seeds}
+                      onChange= {() => setFieldValue('seeds', !values.seeds)}
+                    />
+                  </FormGroup>
                 </Grid>
               </Grid>
               <Grid item xs={12}>
