@@ -4,7 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
+import { MIconButton } from './components/@material-extend';
 
+
+// icons
+import { Icon } from '@iconify/react';
+import closeFill from '@iconify/icons-eva/close-fill';
 
 // context 
 import { AuthProvider } from './contexts/AuthContext';
@@ -18,18 +24,34 @@ import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 //     <App />
 //   </React.StrictMode>
 // );
+
+const notistackRef:any = React.createRef();
+const onClickDismiss = (key: any) => () => { 
+    notistackRef.current.closeSnackbar(key);
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-
-    <AuthProvider>
-        <CollapseDrawerProvider>
-          <App />
-        </CollapseDrawerProvider>
-    </AuthProvider>
+      <SnackbarProvider
+         anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        ref={notistackRef}
+        action={(key) => (
+          <MIconButton size="small" onClick={onClickDismiss(key)}>
+            <Icon icon={closeFill} />
+          </MIconButton>
+        )}
+      >
+        <AuthProvider>
+          <CollapseDrawerProvider>
+            <App />
+          </CollapseDrawerProvider>
+        </AuthProvider>
+      </SnackbarProvider>
     </BrowserRouter>
-
-
   </React.StrictMode>,
   document.getElementById('root')
 );

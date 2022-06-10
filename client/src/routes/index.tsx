@@ -14,6 +14,8 @@ import Logout from '../components/authentication/Logout';
 import DashboardLayout from '../layouts/dashboard';
 import Test from '../views/Test';
 import HomePage from '../views/HomePage';
+import CreatePlant from '../views/CreatePlant';
+import PlantList from '../views/PlantList';
 
 export default function Router() {
   return useRoutes([
@@ -49,6 +51,8 @@ export default function Router() {
         ),*/
         children: [
           { path: '/dashboard', element: <HomePage /> },
+          { path: 'plants', element: <PlantList /> },
+          { path: 'plants/create', element: <CreatePlant/>},
           { path: 'plants/:plantId', element: <Test/>}
           //{ path: 'create', element: <CreateRide /> },
           //{ path: 'profile', element: <UserDetails /> },

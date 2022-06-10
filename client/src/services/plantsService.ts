@@ -54,3 +54,19 @@ export async function fetchPlantById(id:string) {
     }
   });
 };
+
+export async function deletePlantById(id:number) {
+  return new Promise(async (resolve,reject) => {
+    const url = `/plants/${id}`;
+    try {
+        const response =  await axios.delete(url, {
+          headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+          }
+        });
+        resolve(response.data)
+    } catch(err){
+        reject(err);
+    }
+  });
+}
