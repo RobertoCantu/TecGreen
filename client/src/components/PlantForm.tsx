@@ -25,7 +25,7 @@ import useAuth from '../hooks/useAuth';
 // Utils
 
 import { PATH_DASHBOARD } from '../routes/paths';
-// import { createRoute, editRouteById} from '../../services/routesService'
+import { createPlant} from '../services/plantsService'
 import { MIconButton } from './@material-extend';
 // import { fetchEditRouteById } from '../../services/routesService';
 
@@ -102,9 +102,10 @@ const PlantForm = () => {
             if(rideId){
               //await editRouteById(rideId!, user?.id, direccion, hora, asientos, gasolina, days)
             } else {
+              await createPlant(commonName, scientificName, flowers, seeds)
               //await createRoute(user?.id, direccion, hora, asientos, gasolina, days)
             }
-            enqueueSnackbar(rideId ? '¡Ruta actualizada exitosamente!': '¡Ruta creada exitosamente!', {
+            enqueueSnackbar(rideId ? 'Planta actualizada exitosamente!': 'Planta creada exitosamente!', {
               variant: 'success',
               action: (key) => (
                 <MIconButton size="small" onClick={() => closeSnackbar(key)}>

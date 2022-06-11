@@ -18,7 +18,7 @@ export async function getPlants() {
 };
 
 export async function createPlant(commonName:string, scientificName:string,
-  flowers:string, seeds:string) {
+  flowers:boolean, seeds:boolean) {
   return new Promise(async (resolve,reject) => {
     const url = '/plants';
     try {
