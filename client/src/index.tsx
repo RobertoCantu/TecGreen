@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { SnackbarProvider } from 'notistack';
 import { MIconButton } from './components/@material-extend';
+import ThemeConfig from './theme';
 
 
 // icons
@@ -46,9 +47,11 @@ ReactDOM.render(
         )}
       >
         <AuthProvider>
-          <CollapseDrawerProvider>
-            <App />
-          </CollapseDrawerProvider>
+         <ThemeConfig>
+            <CollapseDrawerProvider>
+              <App />
+            </CollapseDrawerProvider>
+          </ThemeConfig>
         </AuthProvider>
       </SnackbarProvider>
     </BrowserRouter>

@@ -12,11 +12,10 @@ import closeFill from '@iconify/icons-eva/close-fill';
 import { Icon } from '@iconify/react';
 import { Formik, Form, FormikHelpers } from 'formik';
 import { TextField, Grid, OutlinedInput } from '@mui/material';
-import { FormGroup, FormControlLabel, Checkbox, Select, FormControl, InputLabel, MenuItem, Box, ListItemText, Alert } from '@mui/material';
+import { FormGroup, FormControlLabel, Checkbox, IconButton, Tooltip, Box, Alert, Button, Theme} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import DateAdapter from '@mui/lab/AdapterMoment';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import { TimePicker } from '@mui/lab';
+import { PhotoCamera } from '@material-ui/icons'
+import { makeStyles } from '@mui/styles';
 
 // Hooks
 
@@ -37,6 +36,10 @@ interface InitialValues {
   afterSubmit?: string;
 };
 
+interface FormProps {
+  saveFace: any; //(fileName:Blob) => Promise<void>, // callback taking a string and then dispatching a store actions
+}
+
 const AddPlantSchema = Yup.object().shape({
   commonName: Yup.string().required('Se requiere el nombre comun de la planta.'),
   scientificName: Yup.string().required('Se requiere el nombre cientifico de la planta.'),
@@ -44,7 +47,22 @@ const AddPlantSchema = Yup.object().shape({
   seeds: Yup.string().required('Se requieren las semillas de la planta.'),
 });
 
+const useStyles:any = makeStyles((theme: any) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  input: {
+    display: "none",
+  },
+  faceImage: {
+    color: theme.palette.primary.light,
+  },
+}));
+
 const PlantForm = () => {
+  const classes = useStyles();
   const navigate = useNavigate();
   const {user} = useAuth();
   const [selected, setSelected] = useState<any>([]);
@@ -53,11 +71,20 @@ const PlantForm = () => {
   const dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
   let { rideId } = useParams();
   let { plantId } = useParams();
+  const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [saveFace, setSaveFace] = useState<any>();
 
   console.log(plantId);
 
   // Functions
-  
+  const handleCapture = ({ target }: any) => {
+    setSelectedFile(target.files[0]);
+  };
+
+  const handleSubmit = () => {
+    setSaveFace(selectedFile);
+  };
+
 
   useEffect(() => {
     const getRouteInfo = async () => {
@@ -173,6 +200,31 @@ const PlantForm = () => {
                     />
                   </FormGroup>
                 </Grid>
+                <Grid item xs={8}>
+                  <input
+                    accept="image/jpeg"
+                    className={classes.input}
+                    id="faceImage"
+                    type="file"
+                    onChange={handleCapture}
+                  />
+                  <Tooltip title="Seleccionar Imagen">
+                    <label htmlFor="faceImage">
+                      <IconButton
+                        className={classes.faceImage}
+                        color="primary"
+                        aria-label="upload picture"
+                        component="span"
+                      >
+                        <PhotoCamera fontSize="large" />
+                      </IconButton>
+                    </label>
+                  </Tooltip>
+                  <label>{selectedFile ? selectedFile.name : "Seleccionar Imagen"}</label>. . .
+                  <Button onClick={() => handleSubmit()} color="primary">
+                    Guardar
+                  </Button>
+                </Grid>
               </Grid>
               <Grid item xs={12}>
                 <LoadingButton
@@ -192,5 +244,7 @@ const PlantForm = () => {
     </Box>
   )
 }
+
+
 
 export default PlantForm
