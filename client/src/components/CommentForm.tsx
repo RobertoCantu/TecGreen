@@ -29,10 +29,7 @@ import { MIconButton } from './@material-extend';
 // import { fetchEditRouteById } from '../../services/routesService';
 
 interface InitialValues {
-  commonName: string;
-  scientificName: string;
-  flowers: boolean;
-  seeds: boolean;
+  description:String
   afterSubmit?: string;
 };
 
@@ -40,11 +37,8 @@ interface FormProps {
   saveFace: any; //(fileName:Blob) => Promise<void>, // callback taking a string and then dispatching a store actions
 }
 
-const AddPlantSchema = Yup.object().shape({
-  commonName: Yup.string().required('Se requiere el nombre comun de la planta.'),
-  scientificName: Yup.string().required('Se requiere el nombre cientifico de la planta.'),
-  flowers: Yup.string().required('Se requiere las flores de la planta.'),
-  seeds: Yup.string().required('Se requieren las semillas de la planta.'),
+const AddCommentSchema = Yup.object().shape({
+  description: Yup.string().required('Se requiere una descripción.'),
 });
 
 const useStyles:any = makeStyles((theme: any) => ({
@@ -61,7 +55,7 @@ const useStyles:any = makeStyles((theme: any) => ({
   },
 }));
 
-const PlantForm = () => {
+const CommentForm = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const {user} = useAuth();
@@ -245,4 +239,4 @@ const PlantForm = () => {
   )
 }
 
-export default PlantForm
+export default CommentForm
