@@ -33,7 +33,7 @@ export async function fetchCommentById(commentId: string) {
   });
 };
 
-export async function createComment(userId: string, plantId: string,
+export async function createComment(userId: string, plantId: string | undefined,
   content: string) {
   return new Promise(async (resolve,reject) => {
     const url = '/comments';

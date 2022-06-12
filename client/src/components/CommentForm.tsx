@@ -11,11 +11,10 @@ import * as Yup from 'yup';
 import closeFill from '@iconify/icons-eva/close-fill';
 import { Icon } from '@iconify/react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { TextField, Grid, OutlinedInput } from '@mui/material';
-import { FormGroup, FormControlLabel, Checkbox, IconButton, Tooltip, Box, Alert, Button, Theme} from '@mui/material';
+import { TextField, Grid } from '@mui/material';
+import { Box, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { PhotoCamera } from '@material-ui/icons'
-import { makeStyles } from '@mui/styles';
+
 
 // Hooks
 
@@ -24,109 +23,73 @@ import useAuth from '../hooks/useAuth';
 // Utils
 
 import { PATH_DASHBOARD } from '../routes/paths';
-import { createPlant} from '../services/plantsService'
+import { createComment, editCommentById, fetchCommentById} from '../services/commentService'
 import { MIconButton } from './@material-extend';
-// import { fetchEditRouteById } from '../../services/routesService';
 
 interface InitialValues {
-  description:String
+  description: string
   afterSubmit?: string;
 };
-
-interface FormProps {
-  saveFace: any; //(fileName:Blob) => Promise<void>, // callback taking a string and then dispatching a store actions
-}
 
 const AddCommentSchema = Yup.object().shape({
   description: Yup.string().required('Se requiere una descripción.'),
 });
 
-const useStyles:any = makeStyles((theme: any) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-  input: {
-    display: "none",
-  },
-  faceImage: {
-    color: theme.palette.primary.light,
-  },
-}));
-
 const CommentForm = () => {
-  const classes = useStyles();
   const navigate = useNavigate();
   const {user} = useAuth();
-  const [selected, setSelected] = useState<any>([]);
-  const [ride, setRide] = useState<any>([]);
+  const [comment, setComment] = useState('');
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-  let { rideId } = useParams();
   let { plantId } = useParams();
-  const [selectedFile, setSelectedFile] = useState<any>(null);
-  const [saveFace, setSaveFace] = useState<any>();
+  let { commentId } = useParams();
+
 
   console.log(plantId);
+  console.log(user?.id)
 
-  // Functions
-  const handleCapture = ({ target }: any) => {
-    setSelectedFile(target.files[0]);
-  };
-
-  const handleSubmit = () => {
-    setSaveFace(selectedFile);
-  };
-
-
+ 
   useEffect(() => {
-    const getRouteInfo = async () => {
-      // try {
-      //   const response: any = rideId && await fetchEditRouteById(rideId)
-      //   setRide(response);
-      //   setSelected(response.dias)
-      // } catch(err:any){
-      //   navigate(PATH_DASHBOARD.root);
-      //   enqueueSnackbar(err.error, {
-      //     variant: 'error',
-      //     action: (key) => (
-      //       <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-      //         <Icon icon={closeFill} />
-      //       </MIconButton>
-      //     )
-      //   });
-      // }
+    const getCommentInfo = async () => {
+      try {
+        const res:any = commentId && await fetchCommentById(commentId);
+        setComment(res);
+      } catch(err:any){
+          navigate(PATH_DASHBOARD.root);
+          enqueueSnackbar(err.error, {
+            variant: 'error',
+            action: (key) => (
+              <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+                <Icon icon={closeFill} />
+              </MIconButton>
+            )
+          });
+      }
     }
-    if(rideId){
-      getRouteInfo()
+    if(commentId){
+      getCommentInfo()
     }
-  }, [rideId])
+  }, [commentId])
 
   return (
     <Box>
       <Formik
         enableReinitialize={true} 
         initialValues={{
-          commonName: ride?.origen || '',
-          scientificName: ride?.horaLlegada || '',
-          flowers: ride?.gasolina || false,
-          seeds: ride?.asientos || false,
+          description: ''
         }}
-        validationSchema={AddPlantSchema}
+        validationSchema={AddCommentSchema}
         onSubmit={async (
           values: InitialValues,
           { resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
-            const {commonName, scientificName, flowers, seeds } = values;
-            if(rideId){
-              //await editRouteById(rideId!, user?.id, direccion, hora, asientos, gasolina, days)
+            const { description } = values;
+            if(commentId){
+              editCommentById(commentId, description);
             } else {
-              await createPlant(commonName, scientificName, flowers, seeds)
-              //await createRoute(user?.id, direccion, hora, asientos, gasolina, days)
+              await createComment(user?.id, plantId, description);
             }
-            enqueueSnackbar(rideId ? 'Planta actualizada exitosamente!': 'Planta creada exitosamente!', {
+            enqueueSnackbar(commentId ? 'Comentario actualizado exitosamente!': 'Comentario creado exitosamente!', {
               variant: 'success',
               action: (key) => (
                 <MIconButton size="small" onClick={() => closeSnackbar(key)}>
@@ -137,7 +100,6 @@ const CommentForm = () => {
             navigate(PATH_DASHBOARD.root);
           } catch (error:any){
             resetForm();
-            setSelected([]);
             setErrors({ afterSubmit: error.response.data.message });
           }
         }}
@@ -151,73 +113,17 @@ const CommentForm = () => {
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
-                    autoComplete="commonName"
+                    autoComplete="description"
                     type="text"
-                    label="Nombre comun"
-                    name= "commonName"
-                    value = {values.commonName}
+                    label="Descripción"
+                    name= "description"
+                    value = {values.description}
+                    multiline
+                    rows={20}
                     onChange = {handleChange}
-                    error={Boolean(touched.commonName && errors.commonName)}
-                    helperText={touched.commonName && errors.commonName}
+                    error={Boolean(touched.description && errors.description)}
+                    helperText={touched.description && errors.description}
                   />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    autoComplete="scientificName"
-                    type="text"
-                    label="Nombre científico"
-                    name= "scientificName"
-                    value = {values.scientificName}
-                    onChange = {handleChange}
-                    error={Boolean(touched.scientificName && errors.scientificName)}
-                    helperText={touched.scientificName && errors.scientificName}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormGroup>
-                    <FormControlLabel 
-                      control={<Checkbox />} 
-                      label="¿Tiene flores?" 
-                      checked={values.flowers}
-                      onChange= {() => setFieldValue('flowers', !values.flowers)}
-                    />
-                  </FormGroup>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormGroup>
-                    <FormControlLabel 
-                      control={<Checkbox />} 
-                      label="¿Tiene semillas?" 
-                      checked={values.seeds}
-                      onChange= {() => setFieldValue('seeds', !values.seeds)}
-                    />
-                  </FormGroup>
-                </Grid>
-                <Grid item xs={8}>
-                  <input
-                    accept="image/jpeg"
-                    className={classes.input}
-                    id="faceImage"
-                    type="file"
-                    onChange={handleCapture}
-                  />
-                  <Tooltip title="Seleccionar Imagen">
-                    <label htmlFor="faceImage">
-                      <IconButton
-                        className={classes.faceImage}
-                        color="primary"
-                        aria-label="upload picture"
-                        component="span"
-                      >
-                        <PhotoCamera fontSize="large" />
-                      </IconButton>
-                    </label>
-                  </Tooltip>
-                  <label>{selectedFile ? selectedFile.name : "Seleccionar Imagen"}</label>. . .
-                  <Button onClick={() => handleSubmit()} color="primary">
-                    Guardar
-                  </Button>
                 </Grid>
               </Grid>
               <Grid item xs={12}>
@@ -228,7 +134,7 @@ const CommentForm = () => {
                   variant='contained'
                   loading={isSubmitting}
                 >
-                  {rideId ? 'Guardar cambios' : 'Agregar planta'}
+                  {commentId ? 'Guardar cambios' : 'Agregar comentario'}
                 </LoadingButton>
               </Grid>
             </Grid>

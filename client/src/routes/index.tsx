@@ -16,6 +16,7 @@ import Test from '../views/Test';
 import HomePage from '../views/HomePage';
 import CreatePlant from '../views/CreatePlant';
 import PlantList from '../views/PlantList';
+import CreateComment from '../views/CreateComment';
 
 export default function Router() {
   return useRoutes([
@@ -53,7 +54,8 @@ export default function Router() {
           { path: '/dashboard', element: <HomePage /> },
           { path: 'plants', element: <PlantList /> },
           { path: 'plants/create', element: <CreatePlant/>},
-          { path: 'plants/:plantId', element: <Test/>}
+          { path: 'plants/:plantId', element: <Test/>},
+          { path: 'plants/:plantId/addComment', element: <CreateComment/>},
           //{ path: 'create', element: <CreateRide /> },
           //{ path: 'profile', element: <UserDetails /> },
           //{ path: 'rides/:rideId', element: <RideDetails /> },
