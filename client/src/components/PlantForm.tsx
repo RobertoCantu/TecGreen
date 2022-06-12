@@ -24,7 +24,7 @@ import useAuth from '../hooks/useAuth';
 // Utils
 
 import { PATH_DASHBOARD } from '../routes/paths';
-import { createPlant} from '../services/plantsService'
+import { createPlant, fetchPlantById } from '../services/plantsService'
 import { MIconButton } from './@material-extend';
 // import { fetchEditRouteById } from '../../services/routesService';
 
@@ -65,11 +65,8 @@ const PlantForm = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const {user} = useAuth();
-  const [selected, setSelected] = useState<any>([]);
-  const [ride, setRide] = useState<any>([]);
+  const [plant, setPlant] = useState<any>();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const dias = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-  let { rideId } = useParams();
   let { plantId } = useParams();
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [saveFace, setSaveFace] = useState<any>();
@@ -85,39 +82,40 @@ const PlantForm = () => {
     setSaveFace(selectedFile);
   };
 
+  const getPlantInfo = async () => {
+    try {
+      const res:any = plantId && await fetchPlantById(plantId);
+      setPlant(res);
 
+    } catch(err:any){
+        navigate(PATH_DASHBOARD.root);
+        enqueueSnackbar(err.error, {
+          variant: 'error',
+          action: (key) => (
+            <MIconButton size="small" onClick={() => closeSnackbar(key)}>
+              <Icon icon={closeFill} />
+            </MIconButton>
+          )
+        });
+    }
+  };
+
+  // Effects
   useEffect(() => {
-    const getRouteInfo = async () => {
-      // try {
-      //   const response: any = rideId && await fetchEditRouteById(rideId)
-      //   setRide(response);
-      //   setSelected(response.dias)
-      // } catch(err:any){
-      //   navigate(PATH_DASHBOARD.root);
-      //   enqueueSnackbar(err.error, {
-      //     variant: 'error',
-      //     action: (key) => (
-      //       <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-      //         <Icon icon={closeFill} />
-      //       </MIconButton>
-      //     )
-      //   });
-      // }
+    if(plantId){
+      getPlantInfo()
     }
-    if(rideId){
-      getRouteInfo()
-    }
-  }, [rideId])
+  }, [plantId])
 
   return (
     <Box>
       <Formik
         enableReinitialize={true} 
         initialValues={{
-          commonName: ride?.origen || '',
-          scientificName: ride?.horaLlegada || '',
-          flowers: ride?.gasolina || false,
-          seeds: ride?.asientos || false,
+          commonName: plant?.commonName || '',
+          scientificName: plant?.scientificName || '',
+          flowers: plant?.flowers || false,
+          seeds: plant?.seeds || false,
         }}
         validationSchema={AddPlantSchema}
         onSubmit={async (
@@ -126,13 +124,12 @@ const PlantForm = () => {
         ) => {
           try {
             const {commonName, scientificName, flowers, seeds } = values;
-            if(rideId){
+            if(plantId){
               //await editRouteById(rideId!, user?.id, direccion, hora, asientos, gasolina, days)
             } else {
               await createPlant(commonName, scientificName, flowers, seeds)
-              //await createRoute(user?.id, direccion, hora, asientos, gasolina, days)
             }
-            enqueueSnackbar(rideId ? 'Planta actualizada exitosamente!': 'Planta creada exitosamente!', {
+            enqueueSnackbar(plantId ? 'Planta actualizada exitosamente!': 'Planta creada exitosamente!', {
               variant: 'success',
               action: (key) => (
                 <MIconButton size="small" onClick={() => closeSnackbar(key)}>
@@ -143,7 +140,6 @@ const PlantForm = () => {
             navigate(PATH_DASHBOARD.root);
           } catch (error:any){
             resetForm();
-            setSelected([]);
             setErrors({ afterSubmit: error.response.data.message });
           }
         }}
@@ -234,7 +230,7 @@ const PlantForm = () => {
                   variant='contained'
                   loading={isSubmitting}
                 >
-                  {rideId ? 'Guardar cambios' : 'Agregar planta'}
+                  {plantId ? 'Guardar cambios' : 'Agregar planta'}
                 </LoadingButton>
               </Grid>
             </Grid>
