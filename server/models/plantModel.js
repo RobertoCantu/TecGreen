@@ -5,8 +5,7 @@ const Schema = mongoose.Schema;
 const plantSchema = new Schema({
     commonName: {type: String, required: true},
     scientificName: {type: String},
-    flowers: {type: Boolean, required: true},
-    seeds: {type: Boolean, required: true},
+    description: {type: String},
     picture: {data:Buffer, contentType: String}, 
     comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}]
 });
