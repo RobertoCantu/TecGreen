@@ -56,6 +56,7 @@ export default function Router() {
           { path: 'plants/create', element: <CreatePlant/>},
           { path: 'plants/:plantId', element: <Test/>},
           { path: 'plants/:plantId/addComment', element: <CreateComment/>},
+          { path: 'plants/:plantId/editComment/:commentId', element: <CreateComment/>},
           //{ path: 'create', element: <CreateRide /> },
           //{ path: 'profile', element: <UserDetails /> },
           //{ path: 'rides/:rideId', element: <RideDetails /> },

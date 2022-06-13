@@ -38,7 +38,7 @@ const AddCommentSchema = Yup.object().shape({
 const CommentForm = () => {
   const navigate = useNavigate();
   const {user} = useAuth();
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState<any>('');
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   let { plantId } = useParams();
   let { commentId } = useParams();
@@ -75,7 +75,7 @@ const CommentForm = () => {
       <Formik
         enableReinitialize={true} 
         initialValues={{
-          description: ''
+          description: comment?.content || ''
         }}
         validationSchema={AddCommentSchema}
         onSubmit={async (
