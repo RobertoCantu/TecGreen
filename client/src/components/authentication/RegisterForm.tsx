@@ -28,7 +28,6 @@ type InitialValues = {
   password: string;
   firstName: string;
   lastName: string;
-  phone: string;
   afterSubmit?: string;
   };
 
@@ -38,7 +37,6 @@ const RegisterSchema = Yup.object().shape({
   firstName: Yup.string().min(2, 'El nombre es muy corto').required('Se requiere un nombre(s).'),
   lastName: Yup.string().required('Se requieren los apellidos.').matches(LASTNAME_REGEX, "Se requieren los dos apellidos."),
   email: Yup.string().email('El correo debe ser una direccion de correo valida.').required('Se requiere un correo.'),
-  phone: Yup.string().min(10, 'El número de celular debe ser de 10 dígitos').required('Se requiere un número de celular.'),
   password: Yup.string().required('Se requiere una contraseña.').matches(PASSWORD_REGEX,
     "La contraseña debe tener 8 caracteres, 1 mayúscula, 1 minúscula, 1 número y un carácter especial."
     ),
@@ -70,7 +68,7 @@ function RegisterForm() {
           { resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
-            await register(values.firstName, values.lastName, values.email, values.phone, values.password);
+            await register(values.firstName, values.lastName, values.email, values.password);
             enqueueSnackbar('¡Creación de cuenta exitosa!', {
               variant: 'success',
               action: (key) => (
@@ -123,22 +121,6 @@ function RegisterForm() {
                   onChange = {handleChange}
                   error={Boolean(touched.email && errors.email)}
                   helperText={touched.email && errors.email}
-                />
-                 <TextField
-                  fullWidth
-                  autoComplete="username"
-                  type="text"
-                  label="Celular"
-                  name= "phone"
-                  value = {values.phone}
-                  inputProps={{ maxLength: 10 }}
-                  onChange={e => {
-                    e.preventDefault();
-                    const value = e.target.value.replace(PHONE_REGEX, "")
-                    setFieldValue("phone", value);
-                  }}
-                  error={Boolean(touched.phone && errors.phone)}
-                  helperText={touched.phone && errors.phone}
                 />
                 <TextField
                   fullWidth

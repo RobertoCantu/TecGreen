@@ -161,17 +161,16 @@ function AuthProvider({children} : {children: ReactNode}){
   }
 
   const register = async(firstName: string, lastName: string,
-                         email:string, phone:string, password: string) =>{
+                         email:string, password: string) =>{
 
     try{
-      const response:any = await authRegister(firstName, lastName, email, phone, 
+      const response:any = await authRegister(firstName, lastName, email,
         password);
       const { token } = response;
       const user: any = {
         "name": response.name,
         "lastName": response.lastName,
         "email": response.email,
-        "phone": response.phone,
         "id": response._id
       }
       //Set Jwt in local storage
