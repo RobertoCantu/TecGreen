@@ -17,7 +17,7 @@ export default function Test() {
       <ExpandableCard
         author="Frida Gutierrez"
         date="Junio 8, 2022"
-        description="Breve descripción"
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris."
         careLevel="Low"
         requiresSun={true}
         waterDays={4}

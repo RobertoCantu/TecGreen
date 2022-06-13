@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
+import { Typography, Stack, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { green } from '@mui/material/colors';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -49,53 +42,51 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
+        sx={{ textAlign: 'left' }}
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe"> R </Avatar>
+          <Avatar sx={{ bgcolor: green[500] }}>
+            T
+          </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+        title={
+          <Typography sx={{ fontSize: 14 }} color="text.secondary">
+            {author}
+          </Typography>
         }
-        title={author}
         subheader={date}
       />
-      {/*<CardMedia
-        component="img"
-        height="194"
-        image="/static/images/cards/paella.jpg"
-        alt="Paella dish"
-      />*/}
-      <CardContent>
-        <Typography variant="h5" component="div">
-          Nivel de cuidado:
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {careLevel}
-        </Typography>
-        <Typography variant="h5" component="div">
-          Requiere sol:
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {requiresSun ? 'Sí' : 'No'}
-        </Typography>
-        <Typography variant="h5" component="div">
-          Días de riego a la semana:
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {waterDays}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {description}
-        </Typography>
+      <CardContent sx={{pb: 0}}>
+        <Stack spacing={2}>
+          <Stack direction="row" spacing={1}>
+            <Typography variant="h6" component="div">
+              Nivel de cuidado:
+            </Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
+              {careLevel}
+            </Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography variant="h6">
+              Requiere sol:
+            </Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
+              {requiresSun ? 'Sí' : 'No'}
+            </Typography>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <Typography variant="h6">
+              Días de riego a la semana:
+            </Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
+              {waterDays}
+            </Typography>
+          </Stack>
+          <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left'}}>
+            {description}
+          </Typography>
+        </Stack>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -106,9 +97,8 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
         </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Tips:</Typography>
-          <Typography paragraph>
+        <CardContent sx={{pt: 0}}>
+          <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left'}}>
             {description}
           </Typography>
         </CardContent>
