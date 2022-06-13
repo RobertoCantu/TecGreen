@@ -26,20 +26,6 @@ router.route('/').get((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// Create a User
-router.route('/').post((req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  const name = req.body.name;
-  const lastName = req.body.lastName;
-
-  const newUser = new User({ email, password, name, lastName });
-
-  newUser.save()
-    .then(() => res.json('User agregado'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
 // Delete a User
 router.route('/:id').delete((req, res) => {
   Comment.deleteMany({ user: req.params.id });

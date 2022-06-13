@@ -13,7 +13,7 @@ import { generateToken } from "../utils/generateToken.js";
 //@route           POST /users/createUser
 //@access          Public
 const createUser = asyncHandler(async(req, res) => {
-  const { name, lastName, email, password } = req.body;
+  const { name, lastName, email, password, role } = req.body;
 
   // Valite if user already exists on db
   const userExists = await User.findOne({email});
@@ -29,6 +29,7 @@ const createUser = asyncHandler(async(req, res) => {
     lastName,
     email,
     password,
+    role
   })
 
   // User successfully created on db
@@ -38,7 +39,8 @@ const createUser = asyncHandler(async(req, res) => {
       name: user.name,
       lastName: user.lastName,
       email: user.email,
-      token: generateToken(user._id), // Send token to frontend for uthenticate user to our backend
+      role: user.role,
+      token: generateToken(user._id, user.role), // Send token to frontend for uthenticate user to our backend
     })
     //notifyEmail(user.email)
   } else {
@@ -63,7 +65,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       lastName: user.lastName,
       email: user.email,
-      token: generateToken(user._id),
+      token: generateToken(user._id, user.role),
     });
   } else { // User not found or incorrect password
     res.status(400);

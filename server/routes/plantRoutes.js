@@ -1,8 +1,7 @@
 import express from "express";
 import fs from "fs";
 import path, { dirname } from "path";
-import { checkAuth } from "../middlewares/auth.js"
-import { checkUser } from "../middlewares/auth.js";
+import { checkAuth, checkUser, checkAdmin } from "../middlewares/auth.js"
 
 // Models
 import Plant from "../models/plantModel.js";
@@ -24,7 +23,7 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/').post(uploadPlant, (req, res) => {
+router.route('/').post(checkAdmin, uploadPlant, (req, res) => {
     Plant.create({
         commonName: req.body.commonName,
         scientificName: req.body.scientificName,
