@@ -85,6 +85,7 @@ const PlantForm = () => {
   const getPlantInfo = async () => {
     try {
       const res:any = plantId && await fetchPlantById(plantId);
+      console.log(res);
       setPlant(res);
 
     } catch(err:any){
