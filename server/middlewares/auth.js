@@ -41,7 +41,6 @@ export const checkAdmin = async (req, res, next) => {
         const token = req.headers.authorization.split(' ')[1];
         const tokenData = await verifyToken(token);
         const userData = await User.findById(tokenData.id);
-        console.log(userData.role)
         if (userData.role == 'admin') {
             next();
         } else {
