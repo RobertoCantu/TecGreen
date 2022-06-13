@@ -6,7 +6,8 @@ import AuthGuard from '../guards/AuthGuard';
 import GuestGuard from '../guards/GuestGuard';
 
 // Components
-
+import Login from '../views/Login';
+import Register from '../views/Register';
 import Logout from '../components/authentication/Logout';
 
 // Views
@@ -20,13 +21,14 @@ import CreateComment from '../views/CreateComment';
 
 export default function Router() {
   return useRoutes([
-    /*{
+    {
       path: 'auth',
       children: [
         {
           path: 'login',
           element: (
             <GuestGuard>
+              <Login/>
             </GuestGuard>
           )
         },
@@ -34,6 +36,7 @@ export default function Router() {
             path: 'register',
             element: (
             <GuestGuard>
+              <Register/>
             </GuestGuard>
             )
           },
@@ -42,14 +45,16 @@ export default function Router() {
             element: <Logout/>
           },
         ]
-      },*/
+      },
   
       // Dashboard Routes
       {
         path: 'dashboard',
-        /*element: (
-          <DashboardLayout />
-        ),*/
+        element: (
+          <AuthGuard>
+            <DashboardLayout />
+          </AuthGuard>
+        ),
         children: [
           { path: '/dashboard', element: <HomePage /> },
           { path: 'plants', element: <PlantList /> },
