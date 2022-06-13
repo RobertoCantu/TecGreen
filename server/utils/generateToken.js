@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 
 // Generate and return encrypted token
-export const generateToken = (id) => { // User id from db
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+export const generateToken = (id, role) => { // User id from db
+  return jwt.sign({ id: id, role:role }, process.env.JWT_SECRET, {
     expiresIn: '30d',
   });
 };

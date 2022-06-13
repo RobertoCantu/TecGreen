@@ -7,6 +7,7 @@ const plantSchema = new Schema({
     scientificName: {type: String},
     flowers: {type: Boolean, required: true},
     seeds: {type: Boolean, required: true},
+    picture: {data:Buffer, contentType: String}, 
     comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}]
 });
 
