@@ -1,13 +1,18 @@
 import express from "express";
+import fs from "fs";
+import path, { dirname } from "path";
 import { checkAuth } from "../middlewares/auth.js"
 import { checkUser } from "../middlewares/auth.js";
 
 // Models
-
 import Plant from "../models/plantModel.js";
 import Comment from "../models/commentModel.js";
 
+// Controllers
+import { uploadPlant } from "../controllers/uploadController.js";
+
 const router = express.Router();
+const __dirname = path.resolve();
 
 //router.use(checkAuth);
 
@@ -19,14 +24,19 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-router.route('/').post((req, res) => {
+router.route('/').post(uploadPlant, (req, res) => {
     Plant.create({
         commonName: req.body.commonName,
         scientificName: req.body.scientificName,
         flowers: Boolean(req.body.flowers),
-        seeds: Boolean(req.body.seeds)
+        seeds: Boolean(req.body.seeds),
+        picture: {
+            data: fs.readFileSync(path.join(__dirname + '/pictures/' + req.file.filename)),
+            contentType: 'image/png'
+        }
     })
         .then(() => res.json("Planta creada."))
+        .catch(err => res.status(400).json('Error: ' + err));
 });
 
 router.route('/:id').get((req, res) => {

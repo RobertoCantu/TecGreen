@@ -23,6 +23,7 @@ const hostname = 'localhost';
 const app = express();
 
 app.use(express.json()); // to accept json data
+app.use(express.urlencoded({extended: false}));
 app.use(cors({
     origin: ["http://localhost:3001"],
     methods: ["GET", "POST", 'DELETE', "PUT"],
