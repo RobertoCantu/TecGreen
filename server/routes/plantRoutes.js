@@ -1,6 +1,6 @@
 import express from "express";
 import fs from "fs";
-import path, { dirname } from "path";
+import path from "path";
 import { checkAuth, checkUser, checkAdmin } from "../middlewares/auth.js"
 
 // Models
@@ -20,6 +20,7 @@ const __dirname = path.resolve();
 // Get all Plants
 router.route('/').get((req, res) => {
     Plant.find()
+        .select({ picture: 0 })
         .then(plants => res.json(plants))
         .catch(err => res.status(400).json('Error: ' + err));
 });
@@ -36,13 +37,19 @@ router.route('/').post(checkAdmin, uploadPlant, (req, res) => {
             contentType: 'image/png'
         }
     })
-        .then(() => res.json("Planta creada."))
+        .then(() => {
+            fs.unlink(path.join(__dirname + '/pictures/' + req.file.filename), (err) => {
+                if (err) throw err;
+            });
+            res.json("Planta creada.")
+        })
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 // Get a Plant
 router.route('/:id').get((req, res) => {
     Plant.findById(req.params.id)
+        .select({ picture: 0 })
         .populate('comments')
         .then(plant => res.json(plant))
         .catch(err => res.status(400).json('Error: ' + err));
@@ -52,26 +59,35 @@ router.route('/:id').get((req, res) => {
 // Delete a Plant
 router.route('/:id').delete((req, res) => {
     Comment.deleteMany({ plant: req.params.id })
-        .then()
-    Plant.findByIdAndDelete(req.params.id)
-        .then(() => res.json('Planta borrada'))
+        .then(()=>{
+            Plant.findByIdAndDelete(req.params.id)
+                .then(() => res.json('Planta borrada'))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 // Update a Plant
-router.route('/:id').post(checkAdmin, (req, res) => {
+router.route('/:id').post(checkAdmin, uploadPlant, (req, res) => {
     Plant.findById(req.params.id)
-      .then(plant => {
-        plant.commonName = req.body.commonName != null ? req.body.commonName : plant.commonName;
-        plant.scientificName = req.body.scientificName != null ? req.body.scientificName : plant.scientificName;
-        plant.flowers = req.body.flowers != null ? Boolean(req.body.flowers) : plant.flowers;
-        plant.seeds = req.body.seeds != null ? Boolean(req.body.seeds) : plant.seeds;
-  
-        plant.save()
-          .then(() => res.json('Plant actualizada'))
-          .catch(err => res.status(400).json('Error: ' + err));
-      })
-      .catch(err => res.status(400).json('Error: ' + err));
-  });
+        .select({ picture: 0 })
+        .then(plant => {
+            plant.commonName = req.body.commonName != null ? req.body.commonName : plant.commonName;
+            plant.scientificName = req.body.scientificName != null ? req.body.scientificName : plant.scientificName;
+            plant.flowers = req.body.flowers != null ? req.body.flowers : plant.flowers;
+            plant.seeds = req.body.seeds != null ? req.body.seeds : plant.seeds;
+            if (req.file) {
+                var plantData = fs.readFileSync(path.join(__dirname + '/pictures/' + req.file.filename));
+                plant.picture.data = plantData;
+                fs.unlink(path.join(__dirname + '/pictures/' + req.file.filename), (err) => {
+                    if (err) throw err;
+                });
+            }
+            plant.save()
+                .then(() => res.json('Plant actualizada'))
+                .catch(err => res.status(400).json('Error: ' + err));
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
 
 export default router;
