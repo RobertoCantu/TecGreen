@@ -1,12 +1,11 @@
 import { ReactNode } from 'react';
 import { isString } from 'lodash';
-// material
+
+// UI
+
 import { Box, Typography, Link } from '@mui/material';
-//
 import { MBreadcrumbs } from './@material-extend';
 import { MBreadcrumbsProps } from './@material-extend/MBreadcrumbs';
-
-// ----------------------------------------------------------------------
 
 interface HeaderBreadcrumbsProps extends MBreadcrumbsProps {
   action?: ReactNode;

@@ -1,18 +1,20 @@
 import * as React from 'react';
 import { useState , useEffect} from 'react'
-import { Box, CardMedia, Autocomplete, TextField, Stack} from '@mui/material'
 import { useNavigate } from "react-router-dom";
-// Routes
+
+// UI
+
+import { Box, CardMedia, Autocomplete, TextField, Stack} from '@mui/material'
+
+// Utils
+
 import { PATH_DASHBOARD } from '../routes/paths';
-// services
 import { getPlants } from '../services/plantsService'
 
 export default function ComboBox() {
-  //States
   const [plants, setPlants] = useState<any>([]);
   let navigate = useNavigate();
 
-  // Functions
   const handleChange = (event:any, newValue:any) => {
     const id = newValue._id
     navigate(PATH_DASHBOARD.general.plants + '/' + id)
@@ -26,12 +28,12 @@ export default function ComboBox() {
     }
   }
 
-  // Use effects
   useEffect(() => {
-    getAllPlants();
     // Api call for setting plants
+    getAllPlants();
   }, [])
-  return (
+
+  return(
     <Stack 
       direction="column"
       justifyContent="center"

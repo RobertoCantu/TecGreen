@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { Typography, Stack, Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Avatar } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
+import { Typography, Stack, Card, CardHeader, CardContent, CardActions, Collapse, Avatar } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { green } from '@mui/material/colors';
 
 interface ExpandMoreProps extends IconButtonProps {

@@ -18,7 +18,6 @@ import TableIcons from '../components/TableIcons';
 
 import { PATH_DASHBOARD } from '../routes/paths';
 import { getPlants } from '../services/plantsService';
-// import { fetchUserById } from '../services/'
 
 // Customed styles
 const useStyles = makeStyles(() =>

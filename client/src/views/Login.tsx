@@ -1,15 +1,17 @@
 import { Link as RouterLink } from 'react-router-dom';
 
-import { makeStyles } from '@mui/styles';
-// routes
-import { PATH_AUTH } from '../routes/paths';
 // UI
 
 import { Box, Card, Stack, Container, Typography, Link } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 
 // Components
 
 import LoginForm from '../components/authentication/LoginForm'
+
+// Utils
+
+import { PATH_AUTH } from '../routes/paths';
 
 const useStyles = makeStyles({
   root: {

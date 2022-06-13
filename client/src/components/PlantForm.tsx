@@ -2,17 +2,14 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import * as Yup from 'yup';
-
-// Components
-
+import { Formik, Form, FormikHelpers } from 'formik';
 
 // UI
 
 import closeFill from '@iconify/icons-eva/close-fill';
 import { Icon } from '@iconify/react';
-import { Formik, Form, FormikHelpers } from 'formik';
-import { TextField, Grid, OutlinedInput } from '@mui/material';
-import { FormGroup, FormControlLabel, Checkbox, IconButton, Tooltip, Box, Alert, Button, Theme} from '@mui/material';
+import { TextField, Grid } from '@mui/material';
+import { FormGroup, FormControlLabel, Checkbox, IconButton, Tooltip, Box, Alert, Button} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { PhotoCamera } from '@material-ui/icons'
 import { makeStyles } from '@mui/styles';
@@ -26,7 +23,6 @@ import useAuth from '../hooks/useAuth';
 import { PATH_DASHBOARD } from '../routes/paths';
 import { createPlant, fetchPlantById } from '../services/plantsService'
 import { MIconButton } from './@material-extend';
-// import { fetchEditRouteById } from '../../services/routesService';
 
 interface InitialValues {
   commonName: string;
