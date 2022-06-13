@@ -17,15 +17,6 @@ import closeFill from '@iconify/icons-eva/close-fill';
 import { AuthProvider } from './contexts/AuthContext';
 import { CollapseDrawerProvider } from './contexts/CollapseDrawerContext';
 
-// const root = ReactDOM.createRoot(
-//   document.getElementById('root') as HTMLElement
-// );
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
-
 const notistackRef:any = React.createRef();
 const onClickDismiss = (key: any) => () => { 
     notistackRef.current.closeSnackbar(key);
