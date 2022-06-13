@@ -27,8 +27,7 @@ import { MIconButton } from './@material-extend';
 interface InitialValues {
   commonName: string;
   scientificName: string;
-  flowers: boolean;
-  seeds: boolean;
+  description: string;
   afterSubmit?: string;
 };
 
@@ -39,8 +38,7 @@ interface FormProps {
 const AddPlantSchema = Yup.object().shape({
   commonName: Yup.string().required('Se requiere el nombre comun de la planta.'),
   scientificName: Yup.string().required('Se requiere el nombre cientifico de la planta.'),
-  flowers: Yup.string().required('Se requiere las flores de la planta.'),
-  seeds: Yup.string().required('Se requieren las semillas de la planta.'),
+  description: Yup.string().required('Se requiere una descripción.'),
 });
 
 const useStyles:any = makeStyles((theme: any) => ({
@@ -66,8 +64,6 @@ const PlantForm = () => {
   let { plantId } = useParams();
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [saveFace, setSaveFace] = useState<any>();
-
-  console.log(plantId);
 
   // Functions
   const handleCapture = ({ target }: any) => {
@@ -111,8 +107,7 @@ const PlantForm = () => {
         initialValues={{
           commonName: plant?.commonName || '',
           scientificName: plant?.scientificName || '',
-          flowers: plant?.flowers || false,
-          seeds: plant?.seeds || false,
+          description: plant?.description || '',
         }}
         validationSchema={AddPlantSchema}
         onSubmit={async (
@@ -120,11 +115,11 @@ const PlantForm = () => {
           { resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
-            const {commonName, scientificName, flowers, seeds } = values;
+            const {commonName, scientificName, description} = values;
             if(plantId){
               //await editRouteById(rideId!, user?.id, direccion, hora, asientos, gasolina, days)
             } else {
-              await createPlant(commonName, scientificName, flowers, seeds)
+              await createPlant(commonName, scientificName, description, '');
             }
             enqueueSnackbar(plantId ? 'Planta actualizada exitosamente!': 'Planta creada exitosamente!', {
               variant: 'success',
@@ -174,24 +169,19 @@ const PlantForm = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <FormGroup>
-                    <FormControlLabel 
-                      control={<Checkbox />} 
-                      label="¿Tiene flores?" 
-                      checked={values.flowers}
-                      onChange= {() => setFieldValue('flowers', !values.flowers)}
-                    />
-                  </FormGroup>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormGroup>
-                    <FormControlLabel 
-                      control={<Checkbox />} 
-                      label="¿Tiene semillas?" 
-                      checked={values.seeds}
-                      onChange= {() => setFieldValue('seeds', !values.seeds)}
-                    />
-                  </FormGroup>
+                  <TextField
+                    fullWidth
+                    autoComplete="description"
+                    type="text"
+                    label="Descripción"
+                    name= "description"
+                    value = {values.description}
+                    multiline
+                    rows={10}
+                    onChange = {handleChange}
+                    error={Boolean(touched.description && errors.description)}
+                    helperText={touched.description && errors.description}
+                  />
                 </Grid>
                 <Grid item xs={8}>
                   <input

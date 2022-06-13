@@ -11,7 +11,7 @@ import * as Yup from 'yup';
 import closeFill from '@iconify/icons-eva/close-fill';
 import { Icon } from '@iconify/react';
 import { Formik, Form, FormikHelpers } from 'formik';
-import { TextField, Grid } from '@mui/material';
+import { TextField, Grid, FormGroup, FormControlLabel, Checkbox, FormControl, InputLabel, Select, MenuItem, FormHelperText } from '@mui/material';
 import { Box, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
@@ -27,11 +27,17 @@ import { createComment, editCommentById, fetchCommentById} from '../services/com
 import { MIconButton } from './@material-extend';
 
 interface InitialValues {
+  care: string;
+  irrigation: number;
+  light: boolean;
   description: string
   afterSubmit?: string;
 };
 
 const AddCommentSchema = Yup.object().shape({
+  care: Yup.string().required('Se requiere seleccionar una opción.'),
+  irrigation: Yup.number().moreThan(0).required('Se requiere seleccionar una opción.'),
+  light: Yup.boolean().required("Selecciona una opción"),
   description: Yup.string().required('Se requiere una descripción.'),
 });
 
@@ -42,11 +48,6 @@ const CommentForm = () => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   let { plantId } = useParams();
   let { commentId } = useParams();
-
-
-  console.log(plantId);
-  console.log(user?.id)
-
  
   useEffect(() => {
     const getCommentInfo = async () => {
@@ -75,6 +76,9 @@ const CommentForm = () => {
       <Formik
         enableReinitialize={true} 
         initialValues={{
+          care: comment?.care || '',
+          irrigation: comment?.irrigation || '',
+          light: comment?.light || false,
           description: comment?.content || ''
         }}
         validationSchema={AddCommentSchema}
@@ -83,7 +87,7 @@ const CommentForm = () => {
           { resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
-            const { description } = values;
+            const { care, irrigation, light, description } = values;
             if(commentId){
               editCommentById(commentId, description);
             } else {
@@ -104,22 +108,66 @@ const CommentForm = () => {
           }
         }}
       >
-        {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => {
+        {({handleChange, values, errors, touched, isSubmitting, setFieldValue, getFieldProps}) => {
         return (
           <Form>
             {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
             <Grid container spacing={4}>
               <Grid item container xs={12} spacing={4}>
+                <Grid item xs={12} md={12} lg={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Cuidados</InputLabel>
+                    <Select
+                      fullWidth
+                      label="Cuidados"
+                      {...getFieldProps('care')}
+                      error={Boolean(touched.care && errors.care)}
+                    >
+                      <MenuItem value={0} disabled>Selecciona</MenuItem>
+                      <MenuItem value={'HIGH'} >Alto</MenuItem>
+                      <MenuItem value={'MEDIUM'}>Medio</MenuItem>
+                      <MenuItem value={'LOW'}>Bajo</MenuItem>
+                    </Select>
+                    {touched.care && errors.care && <FormHelperText sx={{color:'red'}}>Selecciona una opcion</FormHelperText>}
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12} md={12} lg={6}>
+                  <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Riego</InputLabel>
+                    <Select
+                      fullWidth
+                      label="Riego"
+                      {...getFieldProps('irrigation')}
+                      error={Boolean(touched.irrigation && errors.irrigation)}
+                    >
+                      <MenuItem value={0} disabled>Selecciona</MenuItem>
+                      <MenuItem value={1} >Una vez por semana</MenuItem>
+                      <MenuItem value={2}>Dos veces por semana</MenuItem>
+                      <MenuItem value={3}>Tres veces por semana</MenuItem>
+                    </Select>
+                    {touched.irrigation && errors.irrigation && <FormHelperText sx={{color:'red'}}>Selecciona una opcion</FormHelperText>}
+                  </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                  <FormGroup>
+                    <FormControlLabel 
+                      control={<Checkbox />} 
+                      label="¿Requiere luz solar?" 
+                      checked={values.light}
+                      onChange= {() => setFieldValue('light', !values.light)}
+                    />
+                  </FormGroup>
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     fullWidth
                     autoComplete="description"
                     type="text"
-                    label="Descripción"
+                    label="Consejos"
                     name= "description"
                     value = {values.description}
                     multiline
-                    rows={20}
+                    rows={15}
                     onChange = {handleChange}
                     error={Boolean(touched.description && errors.description)}
                     helperText={touched.description && errors.description}

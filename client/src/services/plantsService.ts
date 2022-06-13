@@ -18,7 +18,7 @@ export async function getPlants() {
 };
 
 export async function createPlant(commonName:string, scientificName:string,
-  flowers:boolean, seeds:boolean) {
+  description: string, photo: string) {
   return new Promise(async (resolve,reject) => {
     const url = '/plants';
     try {
@@ -27,8 +27,8 @@ export async function createPlant(commonName:string, scientificName:string,
         const response =  await axios.post(url, {
           commonName,
           scientificName,
-          flowers,
-          seeds
+          description,
+          photo
         });
         resolve(response.data)
     } catch(err){
