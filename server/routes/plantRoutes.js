@@ -30,20 +30,18 @@ router.route('/').post(checkAdmin, uploadPlant, (req, res) => {
     Plant.create({
         commonName: req.body.commonName,
         scientificName: req.body.scientificName,
-        flowers: Boolean(req.body.flowers),
-        seeds: Boolean(req.body.seeds),
+        description: req.body.description,
         picture: {
             data: fs.readFileSync(path.join(__dirname + '/pictures/' + req.file.filename)),
             contentType: 'image/png'
         }
     })
-        .then(() => {
-            fs.unlink(path.join(__dirname + '/pictures/' + req.file.filename), (err) => {
-                if (err) throw err;
-            });
-            res.json("Planta creada.")
-        })
+        .then(() => res.json("Planta creada."))
         .catch(err => res.status(400).json('Error: ' + err));
+
+        fs.unlink(path.join(__dirname + '/pictures/' + req.file.filename), (err) => {
+            if (err) throw err;
+        });
 });
 
 // Get a Plant
@@ -74,8 +72,7 @@ router.route('/:id').post(checkAdmin, uploadPlant, (req, res) => {
         .then(plant => {
             plant.commonName = req.body.commonName != null ? req.body.commonName : plant.commonName;
             plant.scientificName = req.body.scientificName != null ? req.body.scientificName : plant.scientificName;
-            plant.flowers = req.body.flowers != null ? req.body.flowers : plant.flowers;
-            plant.seeds = req.body.seeds != null ? req.body.seeds : plant.seeds;
+            plant.description = req.body.description != null ? req.body.description : plant.description;
             if (req.file) {
                 var plantData = fs.readFileSync(path.join(__dirname + '/pictures/' + req.file.filename));
                 plant.picture.data = plantData;
@@ -84,7 +81,7 @@ router.route('/:id').post(checkAdmin, uploadPlant, (req, res) => {
                 });
             }
             plant.save()
-                .then(() => res.json('Plant actualizada'))
+                .then(() => res.json('Planta actualizada'))
                 .catch(err => res.status(400).json('Error: ' + err));
         })
         .catch(err => res.status(400).json('Error: ' + err));

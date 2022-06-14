@@ -9,7 +9,7 @@ import Plant from "../models/plantModel.js"
 
 const router = express.Router();
 
-//router.use(checkAuth);
+// router.use(checkAuth);
 
 // Endpoints
 
@@ -28,7 +28,10 @@ router.route('/').post((req, res) => {
                 Comment.create({
                     user: req.body.user,
                     plant: req.body.plant,
-                    content: req.body.content
+                    care: req.body.care,
+                    irrigation: Number(req.body.irrigation),
+                    light: Boolean(req.body.light),
+                    description: req.body.description
                 })
                     .then(newComment => {
                         return Plant.findById(req.body.plant)
@@ -66,7 +69,10 @@ router.route('/:id').delete((req, res) => {
 router.route('/:id').post((req, res) => {
     Comment.findById(req.params.id)
         .then(comment => {
-            comment.content = req.body.content;
+            comment.care = req.body.care != null ? req.body.care :  comment.care;
+            comment.irrigation = req.body.irrigation != null ? req.body.irrigation :  comment.irrigation;
+            comment.light = req.body.light != null ? req.body.light : comment.light;
+            comment.description = req.body.description != null ? req.body.description :  comment.description;
             comment.save()
                 .then(() => res.json('Comment actualizado'))
                 .catch(err => res.status(400).json('Error: ' + err));

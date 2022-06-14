@@ -56,7 +56,7 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
         <Stack spacing={2}>
           <Stack direction="row" spacing={1}>
             <Typography variant="h6" component="div">
-              Nivel de cuidado:
+              Nivel de care:
             </Typography>
             <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
               {careLevel}
