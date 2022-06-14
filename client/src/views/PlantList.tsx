@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
+
 
 // UI
 
@@ -17,7 +19,7 @@ import TableIcons from '../components/TableIcons';
 // Utils
 
 import { PATH_DASHBOARD } from '../routes/paths';
-import { getPlants } from '../services/plantsService';
+import { getPlants, deletePlantById } from '../services/plantsService';
 
 // Customed styles
 const useStyles = makeStyles(() =>
@@ -97,8 +99,29 @@ export default function PlantList() {
   const [plants, setPlants] = useState<Row[]>([])
   const navigate = useNavigate();
   const classes = useStyles();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
 
+  // functions
+  const deletePlantByIdFunc = async (id:number, set:any) => {
+    set(true);
+    try {
+      const response:any = await deletePlantById(id);
+      enqueueSnackbar('La planta fue eliminada correctamente', {
+        variant: 'success'
+      });
+      // setOpen(false);
+
+      const res:any = await getPlants();
+      setPlants(res);
+    } catch (err) {
+      enqueueSnackbar('La planta no fue eliminada correctamente', {
+        variant: 'warning'
+      });
+      console.log(err);
+    };
+    set(false);
+  }
 
   const GridCellExpand = React.memo(function GridCellExpand(props: GridCellExpandProps) {
     const { width, value } = props;
@@ -224,7 +247,7 @@ export default function PlantList() {
     {
       field: 'actions',
       type: 'actions',
-      renderCell: (cellValues) => <TableIcons data={cellValues} setPlants= {setPlants}/>
+      renderCell: (cellValues) => <TableIcons data={cellValues} setPlants= {setPlants} deleteById={deletePlantByIdFunc}/>
     },
   ];
 

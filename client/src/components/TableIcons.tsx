@@ -30,41 +30,23 @@ interface data {
   data?:any;
   tableName?:any;
   setPlants?:any;
+  deleteById?:any;
 };
 
-function TableIcons({data, tableName, setPlants}: data) {
+function TableIcons({data, tableName, setPlants, deleteById}: data) {
 
     const classes = useStyles();
     const context = useAuth();
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    const [deletePlant, setDeletePlant] = useState(false);
+    const [deleteCurr, setDeleteCurr] = useState(false);
     const [open, setOpen] = useState(false);
-    const plantId = data.id;
 
     // functions
     // This functiont delete a row base in id
-    const deletePlantByIdFunc = async () => {
-      setDeletePlant(true);
-      try {
-        const response:any = await deletePlantById(plantId);
-        enqueueSnackbar('La planta fue eliminada correctamente', {
-          variant: 'success'
-        });
-        setOpen(false);
-
-        const res:any = await getPlants();
-        setPlants(res);
-      } catch (err) {
-        enqueueSnackbar('La planta no fue eliminada correctamente', {
-          variant: 'warning'
-        });
-        console.log(err);
-      }
-      setDeletePlant(false);
-    }
+    
 
     const handleDeleteSubmit = () => {
-      deletePlantByIdFunc();
+      deleteById(data.id, setDeleteCurr);
     }
 
     const handleClickOpen = () => {
@@ -138,7 +120,7 @@ function TableIcons({data, tableName, setPlants}: data) {
               color="error"
               onClick={handleDeleteSubmit}
               variant="contained"
-              loading={deletePlant}
+              loading={deleteCurr}
             >
               Confirmar
             </LoadingButton> 
