@@ -47,7 +47,7 @@ router.route('/').post(checkAdmin, uploadPlant, (req, res) => {
 // Get a Plant
 router.route('/:id').get((req, res) => {
     Plant.findById(req.params.id)
-        .select({ picture: 0 })
+        // .select({ picture: 0 })
         .populate('comments')
         .then(plant => res.json(plant))
         .catch(err => res.status(400).json('Error: ' + err));
