@@ -65,6 +65,7 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       lastName: user.lastName,
       email: user.email,
+      role: user.role,
       token: generateToken(user._id, user.role),
     });
   } else { // User not found or incorrect password
