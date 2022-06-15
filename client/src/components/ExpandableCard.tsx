@@ -21,15 +21,14 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 type cardProps = {
-  author: string,
-  date: string, // TODO: change it to date if necessary
+  author: any,
   description: string,
   careLevel: string,
   requiresSun: boolean,
   waterDays: number
 }
 
-export const ExpandableCard = ({author, date, description, careLevel, requiresSun, waterDays }:cardProps) => {
+export const ExpandableCard = ({author, description, careLevel, requiresSun, waterDays }:cardProps) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -50,11 +49,10 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
             {author}
           </Typography>
         }
-        subheader={date}
       />
       <CardContent sx={{pb: 0}}>
         <Stack spacing={2}>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} sx={{ textAlign: 'left' }}>
             <Typography variant="h6" component="div">
               Nivel de care:
             </Typography>
@@ -62,7 +60,7 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
               {careLevel}
             </Typography>
           </Stack>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} sx={{ textAlign: 'left' }}>
             <Typography variant="h6">
               Requiere sol:
             </Typography>
@@ -70,7 +68,7 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
               {requiresSun ? 'Sí' : 'No'}
             </Typography>
           </Stack>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} sx={{ textAlign: 'left' }}>
             <Typography variant="h6">
               Días de riego a la semana:
             </Typography>
@@ -78,9 +76,6 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
               {waterDays}
             </Typography>
           </Stack>
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left'}}>
-            {description}
-          </Typography>
         </Stack>
       </CardContent>
       <CardActions disableSpacing>

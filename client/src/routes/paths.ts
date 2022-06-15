@@ -18,6 +18,7 @@ export const PATH_DASHBOARD = {
   general: {
     app: path(ROOTS_DASHBOARD, '/app'),
     plants: path(ROOTS_DASHBOARD, '/plants'),
+    users: path(ROOTS_DASHBOARD, '/users'),
     user: path(ROOTS_DASHBOARD, '/profile')
   }
 };

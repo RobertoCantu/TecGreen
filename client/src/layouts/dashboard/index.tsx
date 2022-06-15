@@ -25,7 +25,7 @@ export default function DashboardLayout() {
 
   return (
   <Box sx={{ height: '100vh'}}>
-    <Container maxWidth="xl" sx={{ height: '100%'}}>
+    <Container maxWidth="xl" sx={{ height: '100%', mt: 8}}>
       <MainStyle
         sx={{
           transition: theme.transitions.create('margin', {

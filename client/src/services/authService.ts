@@ -38,3 +38,21 @@ export async function register(firstName: string, lastName: string, email:string
 		}
 	});
 }
+
+export async function fetchById(id: string)
+{
+	return new Promise(async (resolve,reject) => {
+		const url = `/users/${id}`;
+
+		try {
+      const response =  await axios.get(url, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken')
+        }
+      });
+			resolve(response.data)
+		} catch(err){
+			reject(err);
+		}
+	});
+}
