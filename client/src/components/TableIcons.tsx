@@ -18,6 +18,7 @@ import closeFill from '@iconify/icons-eva/close-fill';
 // Utils
 
 import { deletePlantById, getPlants } from '../services/plantsService';
+import { deleteUserById, getUsers } from '../services/userService';
 // import { fetchUserById } from '../services/userService'
 import { PATH_DASHBOARD } from '../routes/paths';
 
@@ -34,7 +35,7 @@ interface data {
   deleteById?:any;
 };
 
-function TableIcons({data, tableName, setPlants, deleteById}: data) {
+function TableIcons({data, tableName, setPlants, setUsers, deleteById}: data) {
 
     const classes = useStyles();
     const context = useAuth();
@@ -155,4 +156,4 @@ const useStyles = makeStyles({
     },
   });
 
-export default TableIcons
+export default TableIcons 
