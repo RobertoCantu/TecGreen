@@ -52,27 +52,27 @@ export const ExpandableCard = ({author, description, careLevel, requiresSun, wat
       />
       <CardContent sx={{pb: 0}}>
         <Stack spacing={2}>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} sx={{ textAlign: 'left' }}>
             <Typography variant="h6" component="div">
               Nivel de care:
             </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, textAlign: 'left' }}>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
               {careLevel}
             </Typography>
           </Stack>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} sx={{ textAlign: 'left' }}>
             <Typography variant="h6">
               Requiere sol:
             </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, textAlign: 'left' }}>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
               {requiresSun ? 'Sí' : 'No'}
             </Typography>
           </Stack>
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" spacing={1} sx={{ textAlign: 'left' }}>
             <Typography variant="h6">
               Días de riego a la semana:
             </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, textAlign: 'left' }}>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
               {waterDays}
             </Typography>
           </Stack>
