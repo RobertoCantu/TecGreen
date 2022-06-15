@@ -11,7 +11,7 @@ import Comment from "../models/commentModel.js";
 import { uploadPlant } from "../controllers/uploadController.js";
 
 const router = express.Router();
-const __dirname = path.resolve();
+const __dirname = path.resolve(path.dirname('')); 
 
 //router.use(checkAuth);
 
