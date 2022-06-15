@@ -21,15 +21,14 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 type cardProps = {
-  author: string,
-  date: string, // TODO: change it to date if necessary
+  author: any,
   description: string,
   careLevel: string,
   requiresSun: boolean,
   waterDays: number
 }
 
-export const ExpandableCard = ({author, date, description, careLevel, requiresSun, waterDays }:cardProps) => {
+export const ExpandableCard = ({author, description, careLevel, requiresSun, waterDays }:cardProps) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
@@ -50,7 +49,6 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
             {author}
           </Typography>
         }
-        subheader={date}
       />
       <CardContent sx={{pb: 0}}>
         <Stack spacing={2}>
@@ -58,7 +56,7 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
             <Typography variant="h6" component="div">
               Nivel de care:
             </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, textAlign: 'left' }}>
               {careLevel}
             </Typography>
           </Stack>
@@ -66,7 +64,7 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
             <Typography variant="h6">
               Requiere sol:
             </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, textAlign: 'left' }}>
               {requiresSun ? 'Sí' : 'No'}
             </Typography>
           </Stack>
@@ -74,13 +72,10 @@ export const ExpandableCard = ({author, date, description, careLevel, requiresSu
             <Typography variant="h6">
               Días de riego a la semana:
             </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, textAlign: 'left' }}>
               {waterDays}
             </Typography>
           </Stack>
-          <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'left'}}>
-            {description}
-          </Typography>
         </Stack>
       </CardContent>
       <CardActions disableSpacing>
