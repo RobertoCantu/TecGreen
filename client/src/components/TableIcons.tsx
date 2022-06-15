@@ -30,6 +30,7 @@ interface data {
   data?:any;
   tableName?:any;
   setPlants?:any;
+  setUsers?:any;
   deleteById?:any;
 };
 
@@ -42,7 +43,7 @@ function TableIcons({data, tableName, setPlants, deleteById}: data) {
     const [open, setOpen] = useState(false);
 
     // functions
-    // This functiont delete a row base in id
+    // This function delete a row base in id
     
 
     const handleDeleteSubmit = () => {
