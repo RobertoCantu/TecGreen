@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import * as Yup from 'yup';
-import { Formik, Form, FormikHelpers } from 'formik';
+import { Formik, Form, FormikHelpers, ErrorMessage } from 'formik';
 
 // UI
 
@@ -21,13 +21,14 @@ import useAuth from '../hooks/useAuth';
 // Utils
 
 import { PATH_DASHBOARD } from '../routes/paths';
-import { createPlant, fetchPlantById } from '../services/plantsService'
+import { createPlant, fetchPlantById, editPlantById} from '../services/plantsService'
 import { MIconButton } from './@material-extend';
 
 interface InitialValues {
   commonName: string;
   scientificName: string;
   description: string;
+  picture: any;
   afterSubmit?: string;
 };
 
@@ -38,7 +39,8 @@ interface FormProps {
 const AddPlantSchema = Yup.object().shape({
   commonName: Yup.string().required('Se requiere el nombre comun de la planta.'),
   scientificName: Yup.string().required('Se requiere el nombre cientifico de la planta.'),
-  description: Yup.string().required('Se requiere una descripción.'),
+  // description: Yup.string().required('Se requiere una descripción.'),
+  picture: Yup.mixed().required('Se requiere un archivo.'),
 });
 
 const useStyles:any = makeStyles((theme: any) => ({
@@ -65,12 +67,15 @@ const PlantForm = () => {
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [saveFace, setSaveFace] = useState<any>();
 
+  console.log(saveFace);
+
   // Functions
   const handleCapture = ({ target }: any) => {
     setSelectedFile(target.files[0]);
   };
 
   const handleSubmit = () => {
+    console.log(selectedFile)
     setSaveFace(selectedFile);
   };
 
@@ -108,6 +113,7 @@ const PlantForm = () => {
           commonName: plant?.commonName || '',
           scientificName: plant?.scientificName || '',
           description: plant?.description || '',
+          picture: null
         }}
         validationSchema={AddPlantSchema}
         onSubmit={async (
@@ -115,11 +121,11 @@ const PlantForm = () => {
           { resetForm, setErrors }: FormikHelpers<InitialValues>
         ) => {
           try {
-            const {commonName, scientificName, description} = values;
+            const {commonName, scientificName, description, picture} = values;
             if(plantId){
-              //await editRouteById(rideId!, user?.id, direccion, hora, asientos, gasolina, days)
+              await editPlantById(plantId, commonName, scientificName, description, picture);
             } else {
-              await createPlant(commonName, scientificName, description, '');
+              await createPlant(commonName, scientificName, description, picture);
             }
             enqueueSnackbar(plantId ? 'Planta actualizada exitosamente!': 'Planta creada exitosamente!', {
               variant: 'success',
@@ -136,7 +142,7 @@ const PlantForm = () => {
           }
         }}
       >
-        {({handleChange, values, errors, touched, isSubmitting, setFieldValue}) => {
+        {({handleChange, values, errors, touched, isSubmitting, setFieldValue,}) => {
         return (
           <Form>
             {errors.afterSubmit && <Alert severity="error">{errors.afterSubmit}</Alert>}
@@ -168,7 +174,7 @@ const PlantForm = () => {
                     helperText={touched.scientificName && errors.scientificName}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <TextField
                     fullWidth
                     autoComplete="description"
@@ -182,17 +188,22 @@ const PlantForm = () => {
                     error={Boolean(touched.description && errors.description)}
                     helperText={touched.description && errors.description}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={8}>
                   <input
-                    accept="image/jpeg"
+                    accept="image/*"
                     className={classes.input}
-                    id="faceImage"
                     type="file"
-                    onChange={handleCapture}
+                    id="picture"
+                    name="picture"
+                    // onChange={handleCapture}
+                    onChange={(event:any) => setFieldValue('picture', event.currentTarget.files[0])}
+                    // error={Boolean(touched.commonName && errors.commonName)}
+                    // helperText={touched.commonName && errors.commonName}
+                    
                   />
                   <Tooltip title="Seleccionar Imagen">
-                    <label htmlFor="faceImage">
+                    <label htmlFor="picture">
                       <IconButton
                         className={classes.faceImage}
                         color="primary"
@@ -203,10 +214,18 @@ const PlantForm = () => {
                       </IconButton>
                     </label>
                   </Tooltip>
-                  <label>{selectedFile ? selectedFile.name : "Seleccionar Imagen"}</label>. . .
-                  <Button onClick={() => handleSubmit()} color="primary">
+                  <label>{values.picture ? values.picture.name : "Seleccionar Imagen"}</label>. . .
+                  {/* {values.picture ? 
+                    <Button onClick={() => handleSubmit()} color="primary">
                     Guardar
-                  </Button>
+                    </Button>
+                    :
+                    null
+                  } */}
+                  
+                  <ErrorMessage name="picture">
+                      { msg => <div style={{ color: 'red' }}>{msg}</div> }
+                  </ErrorMessage>
                 </Grid>
               </Grid>
               <Grid item xs={12}>

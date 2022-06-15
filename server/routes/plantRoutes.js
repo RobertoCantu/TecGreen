@@ -27,6 +27,8 @@ router.route('/').get((req, res) => {
 
 // Create a Plant
 router.route('/').post(checkAdmin, uploadPlant, (req, res) => {
+    console.log(req.file)
+
     Plant.create({
         commonName: req.body.commonName,
         scientificName: req.body.scientificName,

@@ -18,19 +18,22 @@ export async function getPlants() {
 };
 
 export async function createPlant(commonName:string, scientificName:string,
-  description: string, photo: string) {
+  description: string, picture: string) {
   return new Promise(async (resolve,reject) => {
     const url = '/plants';
+    let bodyFormData = new FormData();
+    bodyFormData.append('commonName', commonName);
+    bodyFormData.append('scientificName', scientificName);
+    // bodyFormData.append('description', description);
+    bodyFormData.append('picture', picture);
+
+
     try {
       // console.log(localStorage.getItem('accessToken'))
+      axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
-        const response =  await axios.post(url, {
-          commonName,
-          scientificName,
-          description,
-          photo
-        });
-        resolve(response.data)
+      const response =  await axios.post(url, bodyFormData);
+      resolve(response.data)
     } catch(err){
         reject(err);
     }
@@ -49,6 +52,28 @@ export async function fetchPlantById(id:string) {
 
         resolve(response.data)
 
+    } catch(err){
+        reject(err);
+    }
+  });
+};
+
+export async function editPlantById(id:string,commonName:string, scientificName:string,
+  description: string, picture: string) {
+  return new Promise(async (resolve,reject) => {
+    const url = `/plants/${id}`;
+    let bodyFormData = new FormData();
+    bodyFormData.append('commonName', commonName);
+    bodyFormData.append('scientificName', scientificName);
+    // bodyFormData.append('description', description);
+    bodyFormData.append('picture', picture);
+
+    try {
+      // console.log(localStorage.getItem('accessToken'))
+      axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
+      const response =  await axios.post(url, bodyFormData);
+      resolve(response.data)
     } catch(err){
         reject(err);
     }
