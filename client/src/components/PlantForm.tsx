@@ -37,8 +37,8 @@ interface FormProps {
 }
 
 const AddPlantSchema = Yup.object().shape({
-  commonName: Yup.string().required('Se requiere el nombre comun de la planta.'),
-  scientificName: Yup.string().required('Se requiere el nombre cientifico de la planta.'),
+  commonName: Yup.string().required('Se requiere el nombre común de la planta.'),
+  scientificName: Yup.string().required('Se requiere el nombre científico de la planta.'),
   // description: Yup.string().required('Se requiere una descripción.'),
   picture: Yup.mixed().required('Se requiere un archivo.'),
 });
@@ -153,7 +153,7 @@ const PlantForm = () => {
                     fullWidth
                     autoComplete="commonName"
                     type="text"
-                    label="Nombre comun"
+                    label="Nombre común"
                     name= "commonName"
                     value = {values.commonName}
                     onChange = {handleChange}
@@ -189,7 +189,7 @@ const PlantForm = () => {
                     helperText={touched.description && errors.description}
                   />
                 </Grid> */}
-                <Grid item xs={8}>
+                <Grid item xs={6}>
                   <input
                     accept="image/*"
                     className={classes.input}
@@ -224,7 +224,7 @@ const PlantForm = () => {
                   } */}
                   
                   <ErrorMessage name="picture">
-                      { msg => <div style={{ color: 'red' }}>{msg}</div> }
+                      { msg => <div style={{ color: '#FF4842', fontSize: 12, position: "relative", left: -33}}>{msg}</div> }
                   </ErrorMessage>
                 </Grid>
               </Grid>
