@@ -20,7 +20,7 @@ export const ReturnButton = ({text}: ButtonProps) => {
       sx={{ alignSelf: 'flex-start' }}
       variant="text"
       startIcon={<ArrowBackOutlinedIcon />}
-      onClick={() => navigate(PATH_DASHBOARD.root)}
+      onClick={() => navigate(-1)}
     >
       {text}
     </Button>
