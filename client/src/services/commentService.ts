@@ -38,7 +38,6 @@ export async function createComment(userId: string, plantId: string | undefined,
   return new Promise(async (resolve,reject) => {
     const url = '/comments';
     try {
-      // console.log(localStorage.getItem('accessToken'))
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
         const response =  await axios.post(url, {
           userId,
@@ -68,7 +67,7 @@ export async function editCommentById(commentId: string, content: string) {
   });
 };
 
-export async function deleteCommentById(commentId: number) {
+export async function deleteCommentById(commentId: string) {
   return new Promise(async (resolve,reject) => {
     const url = `/comments/${commentId}`;
     try {

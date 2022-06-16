@@ -60,29 +60,13 @@ const useStyles:any = makeStyles((theme: any) => ({
 const PlantForm = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const {user} = useAuth();
   const [plant, setPlant] = useState<any>();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   let { plantId } = useParams();
-  const [selectedFile, setSelectedFile] = useState<any>(null);
-  const [saveFace, setSaveFace] = useState<any>();
-
-  console.log(saveFace);
-
-  // Functions
-  const handleCapture = ({ target }: any) => {
-    setSelectedFile(target.files[0]);
-  };
-
-  const handleSubmit = () => {
-    console.log(selectedFile)
-    setSaveFace(selectedFile);
-  };
 
   const getPlantInfo = async () => {
     try {
       const res:any = plantId && await fetchPlantById(plantId);
-      console.log(res);
       setPlant(res);
 
     } catch(err:any){
@@ -174,21 +158,6 @@ const PlantForm = () => {
                     helperText={touched.scientificName && errors.scientificName}
                   />
                 </Grid>
-                {/* <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    autoComplete="description"
-                    type="text"
-                    label="Descripción"
-                    name= "description"
-                    value = {values.description}
-                    multiline
-                    rows={10}
-                    onChange = {handleChange}
-                    error={Boolean(touched.description && errors.description)}
-                    helperText={touched.description && errors.description}
-                  />
-                </Grid> */}
                 <Grid item xs={6}>
                   <input
                     accept="image/*"
@@ -196,11 +165,7 @@ const PlantForm = () => {
                     type="file"
                     id="picture"
                     name="picture"
-                    // onChange={handleCapture}
                     onChange={(event:any) => setFieldValue('picture', event.currentTarget.files[0])}
-                    // error={Boolean(touched.commonName && errors.commonName)}
-                    // helperText={touched.commonName && errors.commonName}
-                    
                   />
                   <Tooltip title="Seleccionar Imagen">
                     <label htmlFor="picture">
@@ -215,14 +180,6 @@ const PlantForm = () => {
                     </label>
                   </Tooltip>
                   <label>{values.picture ? values.picture.name : "Seleccionar Imagen"}</label>. . .
-                  {/* {values.picture ? 
-                    <Button onClick={() => handleSubmit()} color="primary">
-                    Guardar
-                    </Button>
-                    :
-                    null
-                  } */}
-                  
                   <ErrorMessage name="picture">
                       { msg => <div style={{ color: '#FF4842', fontSize: 12, position: "relative", left: -33}}>{msg}</div> }
                   </ErrorMessage>
