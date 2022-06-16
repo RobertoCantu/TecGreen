@@ -4,11 +4,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 // UI
 
-import { Grid, Box} from '@mui/material';
+import {Grid, Box, Button} from '@mui/material';
 
 // Components
 
 import { ExpandableCard } from '../components/ExpandableCard';
+import ReturnButton from '../components/ReturnButton'
 
 // Utils
 
@@ -17,6 +18,8 @@ import { fetchPlantById } from '../services/plantsService';
 // Hooks
 
 import useAuth from '../hooks/useAuth';
+import AddIcon from "@mui/icons-material/Add";
+import {PATH_DASHBOARD} from "../routes/paths";
 
 export default function PlantRecommendation() {
   const [plantComments, setPlantComments] = useState<any>();
@@ -60,6 +63,14 @@ export default function PlantRecommendation() {
         <img src={`data:image/png;base64, ${imageBuffer}`}/>
       </Box>
     }
+      <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          sx={{ mb: 4, alignSelf: 'flex-end'}}
+          onClick={() => navigate(PATH_DASHBOARD.general.plants+ '/' + plantId + '/Addcomment')}
+      >
+        Agregar Recomendación
+      </Button>
        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} sx={{ml: 0}}>
         {plantComments && plantComments.map((plantComment: any, index: any) => (
           <Grid item xs={2} sm={4} md={4} key={index} sx={{mt: 2}}>
