@@ -27,6 +27,7 @@ export const PATH_DASHBOARD = {
 export const PATH_ADMIN = {
   root: ROOT_ADMIN,
   general: {
-    plants: path(ROOT_ADMIN, '/plants')
+    plants: path(ROOT_ADMIN, '/plants'),
+    users: path(ROOT_ADMIN, '/users'),
   }
 }
