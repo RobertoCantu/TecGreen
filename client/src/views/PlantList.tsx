@@ -18,7 +18,7 @@ import TableIcons from '../components/TableIcons';
 
 // Utils
 
-import { PATH_DASHBOARD } from '../routes/paths';
+import { PATH_DASHBOARD, PATH_ADMIN } from '../routes/paths';
 import { getPlants, deletePlantById } from '../services/plantsService';
 
 // Customed styles
@@ -275,7 +275,7 @@ export default function PlantList() {
         variant="contained"
         startIcon={<AddIcon />}
         sx={{ mb: 4, alignSelf: 'flex-end'}}
-        onClick={() => navigate(PATH_DASHBOARD.general.plants + '/create')}
+        onClick={() => navigate(PATH_ADMIN.general.plants + '/create')}
       >
         Agregar planta
       </Button>

@@ -4,6 +4,7 @@ function path(root: string, sublink: string) {
   
 const ROOTS_AUTH = '/auth';
 const ROOTS_DASHBOARD = '/dashboard';
+const ROOT_ADMIN = '/admin';
 
 export const PATH_AUTH = {
   root: ROOTS_AUTH,
@@ -22,3 +23,10 @@ export const PATH_DASHBOARD = {
     user: path(ROOTS_DASHBOARD, '/profile')
   }
 };
+
+export const PATH_ADMIN = {
+  root: ROOT_ADMIN,
+  general: {
+    plants: path(ROOT_ADMIN, '/plants')
+  }
+}

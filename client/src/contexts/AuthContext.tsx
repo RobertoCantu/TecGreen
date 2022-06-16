@@ -141,8 +141,8 @@ function AuthProvider({children} : {children: ReactNode}){
 				"name": response.name,
 				"lastName": response.lastName,
 				"email": response.email,
-				"phone": response.phone,
-        "id": response._id
+        "id": response._id,
+        "role": response.role
 			}
 
       // Set JWT in local storage
@@ -171,7 +171,8 @@ function AuthProvider({children} : {children: ReactNode}){
         "name": response.name,
         "lastName": response.lastName,
         "email": response.email,
-        "id": response._id
+        "id": response._id,
+        "role": response.role
       }
       //Set Jwt in local storage
       window.localStorage.setItem('accessToken',token);

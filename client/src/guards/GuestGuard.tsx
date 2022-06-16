@@ -4,17 +4,22 @@ import { Navigate } from 'react-router-dom';
 // Utils
 
 import useAuth from '../hooks/useAuth';
-import {PATH_DASHBOARD} from '../routes/paths';
+import {PATH_DASHBOARD, PATH_ADMIN} from '../routes/paths';
 
 type GuestGuardProps = {
   children: ReactNode;
 };
 
 export default function GuestGuard({ children }: GuestGuardProps) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   
   if (isAuthenticated) {
-    return <Navigate to={PATH_DASHBOARD.root} />;
+    const role = user?.role;
+    if(role == 'admin'){
+      return <Navigate to={PATH_ADMIN.root} />;
+    } else {
+      return <Navigate to={PATH_DASHBOARD.root} />;
+    }
   }
 
   return <>{children}</>;

@@ -20,7 +20,7 @@ import closeFill from '@iconify/icons-eva/close-fill';
 import { deletePlantById, getPlants } from '../services/plantsService';
 import { deleteUserById, getUsers } from '../services/userService';
 // import { fetchUserById } from '../services/userService'
-import { PATH_DASHBOARD } from '../routes/paths';
+import { PATH_DASHBOARD, PATH_ADMIN } from '../routes/paths';
 
 // Hooks
 
@@ -61,7 +61,7 @@ function TableIcons({data, tableName, setPlants, setUsers, deleteById}: data) {
 
     return (
       <Box sx={{ display: 'flex', justifyContent: "space-evenly",width:'100%', }}>
-        <Link 
+        {/* <Link 
           sx={{fontWeight:'bold'}} 
           underline="none" 
           color="#637381"  
@@ -73,12 +73,12 @@ function TableIcons({data, tableName, setPlants, setUsers, deleteById}: data) {
             style={{ fontSize: '22px' }} 
             icon={eyeIcon}
           />
-        </Link>
+        </Link> */}
        {
         <Link 
             color="#637381" 
             component={RouterLink} 
-            to={PATH_DASHBOARD.general.plants + `/edit/${data.id}`}
+            to={PATH_ADMIN.general.plants + `/edit/${data.id}`}
           >
             <Icon 
               className={classes.editHover} 
