@@ -60,7 +60,7 @@ export default function PlantRecommendation() {
     {
       imageBuffer &&  
       <Box>
-        <img src={`data:image/png;base64, ${imageBuffer}`}/>
+        <img src={`data:image/png;base64, ${imageBuffer}`} width="400px" height="300" alt="Imagen de planta"/>
       </Box>
     }
       <Button

@@ -33,16 +33,19 @@ export async function fetchCommentById(commentId: string) {
   });
 };
 
-export async function createComment(userId: string, plantId: string | undefined,
-  content: string) {
+export async function createComment(user: string, plant: string | undefined,
+  description: string, care: string, irrigation: number, light: boolean) {
   return new Promise(async (resolve,reject) => {
     const url = '/comments';
     try {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
         const response =  await axios.post(url, {
-          userId,
-          plantId,
-          content
+          user,
+          plant,
+          description,
+          care,
+          irrigation,
+          light
         });
         resolve(response.data)
     } catch(err){
