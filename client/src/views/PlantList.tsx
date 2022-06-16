@@ -99,7 +99,7 @@ export default function PlantList() {
   const [plants, setPlants] = useState<Row[]>([])
   const navigate = useNavigate();
   const classes = useStyles();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
 
   // functions
@@ -110,8 +110,6 @@ export default function PlantList() {
       enqueueSnackbar('La planta fue eliminada correctamente', {
         variant: 'success'
       });
-      // setOpen(false);
-
       const res:any = await getPlants();
       setPlants(res);
     } catch (err) {
@@ -257,7 +255,6 @@ export default function PlantList() {
       try {
         const response:any = await getPlants();
         setPlants(response);
-        console.log(response);
       } catch(err){
         console.log(err);
       }

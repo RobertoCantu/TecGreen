@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 
 // UI
 
-import {Card, Button, Box, Stack, Typography, Paper, Grid } from '@mui/material';
-import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import { createStyles, makeStyles } from '@mui/styles';
-import AddIcon from '@mui/icons-material/Add';
+import { Grid, Box} from '@mui/material';
 
 // Components
 
@@ -15,35 +12,19 @@ import { ExpandableCard } from '../components/ExpandableCard';
 
 // Utils
 
-import { PATH_DASHBOARD } from '../routes/paths';
 import { fetchPlantById } from '../services/plantsService';
-import { fetchById } from '../services/authService'
 
-// Customed styles
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      alignItems: 'center',
-      lineHeight: '24px',
-      width: '100%',
-      height: '100%',
-      position: 'relative',
-      display: 'flex',
-      '& .cellValue': {
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-      },
-    },
-  }),
-);
+// Hooks
+
+import useAuth from '../hooks/useAuth';
 
 export default function PlantRecommendation() {
   const [plantComments, setPlantComments] = useState<any>();
   const [imageBuffer, setImageBuffer] = useState<any>(null);
   const [userName, setUserName] = useState<any>();
   const navigate = useNavigate();
-  const classes = useStyles();
+  const [fetchAgain, setFetchAgain] = useState<any>();
+  const { user } = useAuth();
   let { plantId } = useParams();
 
   console.log(imageBuffer);
@@ -64,26 +45,12 @@ export default function PlantRecommendation() {
     } catch(err:any){}
   };
 
-  const getName = async (userId: string) => {
-    try {
-      const response:any = userId && await fetchById(userId);
-      let name = response.name + ' ' + response.lastName
-      return name
-    } catch(err:any){}
-  };
-
-  const getUserName = async (userId: string) => {
-    let name = await getName(userId)
-    console.log(name)
-    return name
-  }
-
   useEffect(() => {
-    if(plantId){
+    if(plantId || fetchAgain){
       getPlantComments()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [plantId])
+  }, [plantId, fetchAgain])
 
   return (
     <>
@@ -93,12 +60,14 @@ export default function PlantRecommendation() {
         <img src={`data:image/png;base64, ${imageBuffer}`}/>
       </Box>
     }
-     
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} sx={{ml: 0}}>
+       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} sx={{ml: 0}}>
         {plantComments && plantComments.map((plantComment: any, index: any) => (
           <Grid item xs={2} sm={4} md={4} key={index} sx={{mt: 2}}>
             <ExpandableCard
-              author={() => getUserName(plantComment.user)}
+              setFetchAgain={setFetchAgain}
+              canBeDeleted={user ? plantComment.user === user.id : false}
+              commentId={plantComment._id}
+              authorId={plantComment.user}
               description={plantComment.description}
               careLevel={plantComment.care}
               requiresSun={plantComment.light}

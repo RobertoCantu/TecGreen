@@ -14,9 +14,13 @@ import { generateToken } from "../utils/generateToken.js";
 //@access          Public
 const createUser = asyncHandler(async(req, res) => {
   const { name, lastName, email, password } = req.body;
-
+  var role = req.body.role;
   // Valite if user already exists on db
   const userExists = await User.findOne({email});
+
+  if (role == null) {
+    role = 'user';
+  }
 
   if(userExists){
     res.status(400);

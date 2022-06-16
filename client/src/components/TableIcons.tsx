@@ -1,19 +1,15 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
-import { useNavigate } from 'react-router-dom';
 
 // UI
 
 import { makeStyles } from '@mui/styles';
 import {Box, Link, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { MIconButton } from './@material-extend';
 import { Icon } from '@iconify/react';
 import eyeIcon from '@iconify/icons-eva/eye-outline';
 import trash from '@iconify/icons-eva/trash-2-outline';
 import edit from '@iconify/icons-eva/edit-2-outline';
-import closeFill from '@iconify/icons-eva/close-fill';
 
 // Utils
 
@@ -21,10 +17,6 @@ import { deletePlantById, getPlants } from '../services/plantsService';
 import { deleteUserById, getUsers } from '../services/userService';
 // import { fetchUserById } from '../services/userService'
 import { PATH_DASHBOARD, PATH_ADMIN } from '../routes/paths';
-
-// Hooks
-
-import useAuth from '../hooks/useAuth';
 
 // interfaces 
 interface data {
@@ -38,14 +30,8 @@ interface data {
 function TableIcons({data, tableName, setPlants, setUsers, deleteById}: data) {
 
     const classes = useStyles();
-    const context = useAuth();
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
     const [deleteCurr, setDeleteCurr] = useState(false);
     const [open, setOpen] = useState(false);
-
-    // functions
-    // This function delete a row base in id
-    
 
     const handleDeleteSubmit = () => {
       deleteById(data.id, setDeleteCurr);

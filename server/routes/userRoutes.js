@@ -27,7 +27,7 @@ router.route('/:id').get(findUser);
 // Get all Users
 router.route('/').get((req, res) => {
   User.find()
-    .then(usuarios => res.json(usuarios))
+    .then(users => res.json(users))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -42,20 +42,23 @@ router.route('/:id').delete((req, res) => {
     })*/
   Comment.deleteMany({ user: req.params.id });
   User.findByIdAndDelete(req.params.id)
-    .then(usuario => res.json('User borrado'))
+    .then(user => res.json('User borrado'))
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 // Update a User
 router.route('/:id').post((req, res) => {
   User.findById(req.params.id)
-    .then(usuario => {
-      usuario.email = req.body.email;
-      usuario.password = req.body.password;
-      usuario.name = req.body.name;
-      usuario.lastName = req.body.lastName;
+    .then(user => {
+      user.email = req.body.email != null ? req.body.email : user.email;
+      if (req.body.password != null){
+        user.password = req.body.password;
+      }
+      user.name = req.body.name != null ? req.body.name : user.name;
+      user.lastName = req.body.lastName != null ? req.body.lastName : user.lastName;
+      user.role = req.body.role != null ? req.body.role : user.role;
 
-      usuario.save()
+      user.save()
         .then(() => res.json('User actualizado'))
         .catch(err => res.status(400).json('Error: ' + err));
     })
