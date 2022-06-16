@@ -55,7 +55,6 @@ export async function editCommentById(commentId: string, content: string) {
   return new Promise(async (resolve,reject) => {
     const url = `/comments/${commentId}`;
     try {
-      // console.log(localStorage.getItem('accessToken'))
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('accessToken');
         const response =  await axios.post(url, {
           content
