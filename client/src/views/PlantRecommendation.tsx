@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 // UI
 
-import {Grid, Box, Button} from '@mui/material';
+import {Grid, Box, Button, Typography} from '@mui/material';
 
 // Components
 
@@ -23,6 +23,8 @@ import {PATH_DASHBOARD} from "../routes/paths";
 
 export default function PlantRecommendation() {
   const [plantComments, setPlantComments] = useState<any>();
+  const [plant, setPlant] = useState<any>();
+
   const [imageBuffer, setImageBuffer] = useState<any>(null);
   const [userName, setUserName] = useState<any>();
   const navigate = useNavigate();
@@ -43,6 +45,7 @@ export default function PlantRecommendation() {
     }
       
       console.log(response)
+      setPlant(response);
       setPlantComments(response.comments);
       setImageBuffer(btoa(binary))
     } catch(err:any){}
@@ -57,6 +60,7 @@ export default function PlantRecommendation() {
 
   return (
     <>
+    <Typography>{plant?.commonName}</Typography>
     {
       imageBuffer &&  
       <Box>
