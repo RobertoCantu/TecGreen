@@ -64,6 +64,18 @@ export const ExpandableCard = ({authorId, canBeDeleted, description, careLevel, 
       setFetchAgain(false)
     };
     setFetchAgain(false)
+  };
+
+  const castCare = (level:string) => {
+    if(level == 'LOW'){
+      return 'Bajo'
+    }
+    else if(level == 'MEDIUM'){
+      return 'Mediano'
+    }
+    else if(level == 'HIGH'){
+      return 'Alto'
+    }
   }
 
   useEffect(() => {
@@ -109,10 +121,10 @@ export const ExpandableCard = ({authorId, canBeDeleted, description, careLevel, 
         <Stack spacing={2}>
           <Stack direction="row" spacing={1} sx={{ textAlign: 'left' }}>
             <Typography variant="h6" component="div">
-              Nivel de care:
+              Nivel de cuidado:
             </Typography>
             <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400 }}>
-              {careLevel}
+              {castCare(careLevel)}
             </Typography>
           </Stack>
           <Stack direction="row" spacing={1} sx={{ textAlign: 'left' }}>
