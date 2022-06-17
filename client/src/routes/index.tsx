@@ -20,6 +20,7 @@ import CreatePlant from '../views/CreatePlant';
 import PlantList from '../views/PlantList';
 import UserList from "../views/UserList";
 import CreateComment from '../views/CreateComment';
+import EditUser from '../views/EditUser';
 
 export default function Router() {
   return useRoutes([
@@ -82,6 +83,8 @@ export default function Router() {
           { path: 'plants/:plantId', element: <PlantRecommendation/>},
           { path: 'plants/:plantId/addComment', element: <CreateComment/>},
           { path: 'plants/:plantId/editComment/:commentId', element: <CreateComment/>},
+          { path: 'users', element: <UserList /> },
+          {path: 'editUser', element: <EditUser/>},
           //{ path: 'create', element: <CreateRide /> },
           //{ path: 'profile', element: <UserDetails /> },
           //{ path: 'rides/:rideId', element: <RideDetails /> },
