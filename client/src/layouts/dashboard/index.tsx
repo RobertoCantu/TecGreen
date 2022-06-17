@@ -33,6 +33,7 @@ export default function DashboardLayout() {
     <Container maxWidth="xl" sx={{ height: '100%', mt: 8}}>
       <MainStyle
         sx={{
+          pb: '72px',
           transition: theme.transitions.create('margin', {
             duration: theme.transitions.duration.complex
           }),

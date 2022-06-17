@@ -9,7 +9,6 @@ import {Grid, Box, Button, Typography, Stack} from '@mui/material';
 // Components
 
 import { ExpandableCard } from '../components/ExpandableCard';
-import ReturnButton from '../components/ReturnButton'
 
 // Utils
 
@@ -31,8 +30,6 @@ export default function PlantRecommendation() {
   const { user } = useAuth();
   let { plantId } = useParams();
 
-  console.log(imageBuffer);
-
   const getPlantComments = async () => {
     try {
       var binary = '';
@@ -42,8 +39,6 @@ export default function PlantRecommendation() {
       for (var i = 0; i < len; i++) {
         binary += String.fromCharCode( bytes[ i ] );
     }
-      
-      console.log(response)
       setPlant(response);
       setPlantComments(response.comments);
       setImageBuffer(btoa(binary))

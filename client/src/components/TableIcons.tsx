@@ -7,16 +7,12 @@ import { makeStyles } from '@mui/styles';
 import {Box, Link, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { Icon } from '@iconify/react';
-import eyeIcon from '@iconify/icons-eva/eye-outline';
 import trash from '@iconify/icons-eva/trash-2-outline';
 import edit from '@iconify/icons-eva/edit-2-outline';
 
 // Utils
 
-import { deletePlantById, getPlants } from '../services/plantsService';
-import { deleteUserById, getUsers } from '../services/userService';
-// import { fetchUserById } from '../services/userService'
-import { PATH_DASHBOARD, PATH_ADMIN } from '../routes/paths';
+import { PATH_ADMIN } from '../routes/paths';
 
 // interfaces 
 interface data {
@@ -25,9 +21,10 @@ interface data {
   setPlants?:any;
   setUsers?:any;
   deleteById?:any;
+  deleteText?: any;
 };
 
-function TableIcons({data, tableName, setPlants, setUsers, deleteById}: data) {
+function TableIcons({data, tableName, setPlants, setUsers, deleteById, deleteText}: data) {
 
     const classes = useStyles();
     const [deleteCurr, setDeleteCurr] = useState(false);
@@ -47,19 +44,6 @@ function TableIcons({data, tableName, setPlants, setUsers, deleteById}: data) {
 
     return (
       <Box sx={{ display: 'flex', justifyContent: "space-evenly",width:'100%', }}>
-        {/* <Link 
-          sx={{fontWeight:'bold'}} 
-          underline="none" 
-          color="#637381"  
-          component={RouterLink} 
-          to={PATH_DASHBOARD.general.plants + `/${data.id}`}
-        >
-          <Icon 
-            className={classes.eyeHover} 
-            style={{ fontSize: '22px' }} 
-            icon={eyeIcon}
-          />
-        </Link> */}
        {
         <Link 
             color="#637381" 
@@ -92,7 +76,7 @@ function TableIcons({data, tableName, setPlants, setUsers, deleteById}: data) {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {"¿Estás seguro de borrar esta planta?"}
+            {deleteText}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">

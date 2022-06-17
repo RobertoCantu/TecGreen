@@ -64,11 +64,7 @@ export default function Router() {
           { path: 'plants/create', element: <CreatePlant/>},
           { path: 'plants/edit/:plantId', element: <CreatePlant/>},
           { path: 'users', element: <UserList /> },
-          //{ path: 'create', element: <CreateRide /> },
-          //{ path: 'profile', element: <UserDetails /> },
-          //{ path: 'rides/:rideId', element: <RideDetails /> },
-          //{ path: 'rides/edit/:rideId', element: <AddRoute mainText='Modifica tu ruta' secondaryText='Modifica los siguientes datos para actualizar tu ruta' /> },
-          //{ path: 'rides/addRoute', element: <AddRoute mainText='Agrega una nueva ruta' secondaryText='Ingresa los siguientes datos para crear tu nueva ruta' /> },
+          { path: 'users/edit/:userId', element: <EditUser />}
         ] 
       },
       {
@@ -85,11 +81,6 @@ export default function Router() {
           { path: 'plants/:plantId/editComment/:commentId', element: <CreateComment/>},
           { path: 'users', element: <UserList /> },
           {path: 'editUser', element: <EditUser/>},
-          //{ path: 'create', element: <CreateRide /> },
-          //{ path: 'profile', element: <UserDetails /> },
-          //{ path: 'rides/:rideId', element: <RideDetails /> },
-          //{ path: 'rides/edit/:rideId', element: <AddRoute mainText='Modifica tu ruta' secondaryText='Modifica los siguientes datos para actualizar tu ruta' /> },
-          //{ path: 'rides/addRoute', element: <AddRoute mainText='Agrega una nueva ruta' secondaryText='Ingresa los siguientes datos para crear tu nueva ruta' /> },
         ] 
       },
      { path: '/', element: <Navigate to="/auth/login" replace /> }

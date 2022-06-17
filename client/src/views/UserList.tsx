@@ -228,7 +228,7 @@ export default function UserList() {
     {
       field: 'actions',
       type: 'actions',
-      renderCell: (cellValues) => <TableIcons data={cellValues} setUsers= {setUsers} deleteById={deleteUserByIdFunc}/>
+      renderCell: (cellValues) => <TableIcons data={cellValues} setUsers= {setUsers} deleteById={deleteUserByIdFunc} deleteText={"¿Estás seguro de borrar este usuario?"}/>
     },
   ];
 

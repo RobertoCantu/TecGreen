@@ -227,7 +227,7 @@ export default function PlantList() {
     {
       field: 'actions',
       type: 'actions',
-      renderCell: (cellValues) => <TableIcons data={cellValues} setPlants= {setPlants} deleteById={deletePlantByIdFunc}/>
+      renderCell: (cellValues) => <TableIcons data={cellValues} setPlants= {setPlants} deleteById={deletePlantByIdFunc} deleteText={"¿Estás seguro de borrar esta planta?"}/>
     },
   ];
 
