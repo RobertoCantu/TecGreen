@@ -225,24 +225,6 @@ export default function PlantList() {
       renderCell: (cellValues) => centerColumns(cellValues)
     },
     {
-      field: 'flowers',
-      headerName: 'Flores',
-      type: 'boolean',
-      flex: 1,
-      editable: false,
-      sortable: false,
-      headerAlign: 'center',
-    },
-    {
-      field: 'seeds',
-      headerName: 'Semillas',
-      type: 'boolean',
-      flex: 1,
-      editable: false,
-      sortable: false,
-      headerAlign: 'center',
-    },
-    {
       field: 'actions',
       type: 'actions',
       renderCell: (cellValues) => <TableIcons data={cellValues} setPlants= {setPlants} deleteById={deletePlantByIdFunc}/>
