@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 // UI
 
-import {Grid, Box, Button, Typography} from '@mui/material';
+import {Grid, Box, Button, Typography, Stack} from '@mui/material';
 
 // Components
 
@@ -26,7 +26,6 @@ export default function PlantRecommendation() {
   const [plant, setPlant] = useState<any>();
 
   const [imageBuffer, setImageBuffer] = useState<any>(null);
-  const [userName, setUserName] = useState<any>();
   const navigate = useNavigate();
   const [fetchAgain, setFetchAgain] = useState<any>();
   const { user } = useAuth();
@@ -59,19 +58,26 @@ export default function PlantRecommendation() {
   }, [plantId, fetchAgain])
 
   return (
-    <>
-    <Typography>{plant?.commonName}</Typography>
+    <Stack>
     {
       imageBuffer &&  
       <Box>
-        <img src={`data:image/png;base64, ${imageBuffer}`} width="400px" height="300" alt="Imagen de planta"/>
+        <img src={`data:image/png;base64, ${imageBuffer}`}
+          style={{
+            height: '400px',
+            width: '100%',
+            maxWidth: '100%',
+            objectFit: 'fill',
+          }}
+          alt="Imagen de planta"/>
       </Box>
     }
+      <Typography variant="h3" sx={{mt: 2}}>{plant?.commonName}</Typography>
       <Button
-          variant="contained"
-          startIcon={<AddIcon />}
-          sx={{ mb: 4, alignSelf: 'flex-end'}}
-          onClick={() => navigate(PATH_DASHBOARD.general.plants+ '/' + plantId + '/Addcomment')}
+        variant="contained"
+        startIcon={<AddIcon />}
+        sx={{ mb: 4, alignSelf: 'flex-end'}}
+        onClick={() => navigate(PATH_DASHBOARD.general.plants+ '/' + plantId + '/Addcomment')}
       >
         Agregar Recomendación
       </Button>
@@ -91,6 +97,6 @@ export default function PlantRecommendation() {
           </Grid>
         ))}
       </Grid>
-    </>
+    </Stack>
   );
 }
