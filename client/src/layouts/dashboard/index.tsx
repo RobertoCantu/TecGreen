@@ -7,6 +7,10 @@ import { styled, useTheme, Container, Box } from '@mui/material';
 
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
 
+// Components
+
+import AppNavBar from '../../components/AppNavBar';
+
 const MainStyle = styled('div')(({ theme }) => ({
   flexGrow: 1,
   overflow: 'auto',
@@ -25,6 +29,7 @@ export default function DashboardLayout() {
 
   return (
   <Box sx={{ height: '100vh'}}>
+    <AppNavBar/>
     <Container maxWidth="xl" sx={{ height: '100%', mt: 8}}>
       <MainStyle
         sx={{

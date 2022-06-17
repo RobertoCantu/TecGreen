@@ -18,7 +18,7 @@ import useAuth from '../../hooks/useAuth';
 
 // Utils
 
-import { PASSWORD_REGEX, PHONE_REGEX, LASTNAME_REGEX } from '../../utils/regex';
+import { PASSWORD_REGEX, LASTNAME_REGEX } from '../../utils/regex';
 import { MIconButton } from '../@material-extend';
 
 // Define types
@@ -78,9 +78,7 @@ function RegisterForm() {
               )
             });
           } catch (error:any){
-            console.log(error.message)
             resetForm();
-            //Falta agregar useRef
             setErrors({ afterSubmit: error.message });
           }
         }}

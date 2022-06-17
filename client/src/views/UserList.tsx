@@ -103,12 +103,9 @@ export default function UserList() {
     set(true);
     try {
       const response:any = await deleteUserById(id);
-      console.log(response);
       enqueueSnackbar('El usuario fue eliminado correctamente', {
         variant: 'success'
       });
-      // setOpen(false);
-
       const res:any = await getUsers();
       setUsers(res);
     } catch (err) {
@@ -241,7 +238,6 @@ export default function UserList() {
       try {
         const response:any = await getUsers();
         setUsers(response);
-        console.log(response);
       } catch(err){
         console.log(err);
       }

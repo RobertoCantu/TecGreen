@@ -91,20 +91,18 @@ const CommentForm = () => {
             if(commentId){
               editCommentById(commentId, description);
             } else {
-              await createComment(user?.id, plantId, description);
+              await createComment(user?.id, plantId, description, care, irrigation, light);
             }
             enqueueSnackbar(commentId ? 'Comentario actualizado exitosamente!': 'Comentario creado exitosamente!', {
               variant: 'success',
-              action: (key) => (
-                <MIconButton size="small" onClick={() => closeSnackbar(key)}>
-                  <Icon icon={closeFill} />
-                </MIconButton>
-              )
             });
             navigate(PATH_DASHBOARD.root);
           } catch (error:any){
+            enqueueSnackbar(commentId ? 'Algo salio mal!': 'Este usuario ya tiene un comentario.', {
+              variant: 'error',
+            });
             resetForm();
-            setErrors({ afterSubmit: error.response.data.message });
+            // setErrors({ afterSubmit: error.response.data.message });
           }
         }}
       >

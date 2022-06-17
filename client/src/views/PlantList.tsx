@@ -18,7 +18,7 @@ import TableIcons from '../components/TableIcons';
 
 // Utils
 
-import { PATH_DASHBOARD } from '../routes/paths';
+import { PATH_DASHBOARD, PATH_ADMIN } from '../routes/paths';
 import { getPlants, deletePlantById } from '../services/plantsService';
 
 // Customed styles
@@ -99,7 +99,7 @@ export default function PlantList() {
   const [plants, setPlants] = useState<Row[]>([])
   const navigate = useNavigate();
   const classes = useStyles();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
 
   // functions
@@ -110,8 +110,6 @@ export default function PlantList() {
       enqueueSnackbar('La planta fue eliminada correctamente', {
         variant: 'success'
       });
-      // setOpen(false);
-
       const res:any = await getPlants();
       setPlants(res);
     } catch (err) {
@@ -227,24 +225,6 @@ export default function PlantList() {
       renderCell: (cellValues) => centerColumns(cellValues)
     },
     {
-      field: 'flowers',
-      headerName: 'Flores',
-      type: 'boolean',
-      flex: 1,
-      editable: false,
-      sortable: false,
-      headerAlign: 'center',
-    },
-    {
-      field: 'seeds',
-      headerName: 'Semillas',
-      type: 'boolean',
-      flex: 1,
-      editable: false,
-      sortable: false,
-      headerAlign: 'center',
-    },
-    {
       field: 'actions',
       type: 'actions',
       renderCell: (cellValues) => <TableIcons data={cellValues} setPlants= {setPlants} deleteById={deletePlantByIdFunc}/>
@@ -257,7 +237,6 @@ export default function PlantList() {
       try {
         const response:any = await getPlants();
         setPlants(response);
-        console.log(response);
       } catch(err){
         console.log(err);
       }
@@ -275,7 +254,7 @@ export default function PlantList() {
         variant="contained"
         startIcon={<AddIcon />}
         sx={{ mb: 4, alignSelf: 'flex-end'}}
-        onClick={() => navigate(PATH_DASHBOARD.general.plants + '/create')}
+        onClick={() => navigate(PATH_ADMIN.general.plants + '/create')}
       >
         Agregar planta
       </Button>
